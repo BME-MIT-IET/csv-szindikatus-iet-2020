@@ -20,7 +20,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Optional;
 
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -66,20 +65,20 @@ public class CSV2RDF implements Runnable {
 	private static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
 
 	@Option(name = "--no-header", arity = 0, description = "If csv file does not contain a header row")
-	boolean noHeader = false;
+	private boolean noHeader = false;
 
 	@Option(name = { "-s", "--separator" }, description = "Seperator character used in the csv file or ',' by default.")
-	String separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
+	private String separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
 
 	@Option(name = { "-q", "--quote" }, description = "Quote character used in the csv file or '\"' by default.")
-	String quote = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
+	private String quote = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
 
 	@Option(name = { "-e", "--escape" }, description = "Escape character used in the csv file or '\\' by default.")
-	String escape = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
+	private String escape = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
 
 	@Arguments(required = true, description = "File arguments. The extension of template file and output file determines the RDF format that will be used for them (.ttl = Turtle, .nt = N-Triples, .rdf = RDF/XML)",
 			title = "templateFile, csvFile, outputFile" )
-	public List<String> files;
+	private List<String> files;
 	private int inputRows = 0;
 	private int outputTriples = 0;
 
