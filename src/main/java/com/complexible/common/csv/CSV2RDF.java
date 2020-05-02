@@ -77,14 +77,10 @@ public class CSV2RDF implements Runnable {
 	@Option(name = { "-e", "--escape" }, description = "Escape character used in the csv file or '\\' by default.")
 	String escape = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
 
-	@Arguments(required = true, description = "Template file. The extension of template file and output file determines the RDF format that will be used for them (.ttl = Turtle, .nt = N-Triples, .rdf = RDF/XML)",
-		title = "templateFile")
+	@Arguments(required = true, description = "File arguments. The extension of template file and output file determines the RDF format that will be used for them (.ttl = Turtle, .nt = N-Triples, .rdf = RDF/XML)",
+			title = "templateFile, csvFile, outputFile" )
 	public List<String> files;
-	@Arguments(required = true, description = "Input csv file. The contetns of this file are transformed into an RDF repository.",
-		title = "csvFile")
 	private int inputRows = 0;
-	@Arguments(required = true, description = "Output file. The RDF repository will be created here.",
-		title = "outputFile")
 	private int outputTriples = 0;
 
 	public void run() {
