@@ -3,6 +3,7 @@ package com.complexible.common.csv;
 
 import org.junit.Test;
 import org.openrdf.rio.RDFFormat;
+import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
 
 import java.util.Optional;
@@ -32,7 +33,22 @@ public class DependencyTest {
     @Test
     public void formatDetectionTest() {
 
-        assertEquals(Optional.of(RDFFormat.TURTLE), Rio.getParserFormatForFileName(templateFilename));
+        Optional<RDFFormat> format = Rio.getParserFormatForFileName(templateFilename);
+
+        assertEquals(Optional.of(RDFFormat.TURTLE), format);
+
+    }
+
+    /**
+     * Check if the Rio.createWriter() method creates the writer properly.
+     */
+    @Test
+    public void createWriterTest() {
+
+        RDFFormat format = RDFFormat.TURTLE;
+        RDFWriter writer = Rio.createWriter(RDFFormat.TURTLE, System.out);
+
+        /* test passes if no exceptions were thrown */
 
     }
 
