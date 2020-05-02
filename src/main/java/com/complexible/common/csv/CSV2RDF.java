@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Optional;
 
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -41,6 +42,7 @@ import org.openrdf.rio.helpers.BasicParserSettings;
 import org.openrdf.rio.helpers.RDFHandlerBase;
 
 import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVParser;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
@@ -67,18 +69,22 @@ public class CSV2RDF implements Runnable {
 	boolean noHeader = false;
 
 	@Option(name = { "-s", "--separator" }, description = "Seperator character used in the csv file or ',' by default.")
-	String separator = String.valueOf(CSVReader.DEFAULT_SEPARATOR);
+	String separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
 
 	@Option(name = { "-q", "--quote" }, description = "Quote character used in the csv file or '\"' by default.")
-	String quote = String.valueOf(CSVReader.DEFAULT_QUOTE_CHARACTER);
+	String quote = String.valueOf(CSVParser.DEFAULT_QUOTE_CHARACTER);
 
 	@Option(name = { "-e", "--escape" }, description = "Escape character used in the csv file or '\\' by default.")
-	String escape = String.valueOf(CSVReader.DEFAULT_ESCAPE_CHARACTER);
+	String escape = String.valueOf(CSVParser.DEFAULT_ESCAPE_CHARACTER);
 
-	@Arguments(required = true, description = "File arguments. The extension of template file and output file determines the RDF format that will be used for them (.ttl = Turtle, .nt = N-Triples, .rdf = RDF/XML)",
-			title = { "templateFile", "csvFile", "outputFile" })
+	@Arguments(required = true, description = "Template file. The extension of template file and output file determines the RDF format that will be used for them (.ttl = Turtle, .nt = N-Triples, .rdf = RDF/XML)",
+		title = "templateFile")
 	public List<String> files;
+	@Arguments(required = true, description = "Input csv file. The contetns of this file are transformed into an RDF repository.",
+		title = "csvFile")
 	private int inputRows = 0;
+	@Arguments(required = true, description = "Output file. The RDF repository will be created here.",
+		title = "outputFile")
 	private int outputTriples = 0;
 
 	public void run() {
@@ -101,7 +107,9 @@ public class CSV2RDF implements Runnable {
 			Preconditions.checkNotNull(row, "Input file is empty!");
 
 			Writer out = Files.newWriter(outputFile, OUTPUT_CHARSET);
-			RDFWriter writer = Rio.createWriter(RDFFormat.forFileName(outputFile.getName(), RDFFormat.TURTLE), out);
+
+			RDFFormat format = Rio.getParserFormatForFileName(outputFile.getName()).orElse(RDFFormat.TURTLE);
+			RDFWriter writer = Rio.createWriter(format, out);
 
 			Template template = new Template(Arrays.asList(row), templateFile, writer);
 
@@ -205,7 +213,9 @@ public class CSV2RDF implements Runnable {
 		private void parseTemplate(List<String> cols, File templateFile, final RDFWriter writer) throws Exception {
 			String templateStr = insertPlaceholders(cols, templateFile);
 
-			RDFParser parser = Rio.createParser(RDFFormat.forFileName(templateFile.getName()));
+			RDFFormat format = Rio.getParserFormatForFileName(templateFile.getName()).orElse(RDFFormat.TURTLE);
+			RDFParser parser = Rio.createParser(format);
+
 			parser.setParserConfig(getParserConfig());
 			parser.setRDFHandler(new RDFHandlerBase() {
 				@SuppressWarnings("rawtypes")
@@ -413,13 +423,17 @@ public class CSV2RDF implements Runnable {
 			super(literal.getLabel(), providers);
 
 			this.datatype = literal.getDatatype();
-			this.lang = literal.getLanguage();
+			this.lang = literal.getLanguage().orElse(null);
 		}
 
 		public Literal generate(int rowIndex, String[] row) {
 			String value = applyTemplate(rowIndex, row);
-			return datatype == null ? lang == null ? FACTORY.createLiteral(value) : FACTORY.createLiteral(value, lang)
-			                : FACTORY.createLiteral(value, datatype);
+
+			if (datatype == null)
+				return FACTORY.createLiteral(value, lang);
+
+			return FACTORY.createLiteral(value, datatype);
+
 		}
 	}
 
