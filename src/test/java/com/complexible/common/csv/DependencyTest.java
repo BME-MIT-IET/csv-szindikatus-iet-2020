@@ -32,7 +32,7 @@ public class DependencyTest {
     @Test
     public void formatDetectionTest() {
 
-        assertEquals(Rio.getParserFormatForFileName(templateFilename), Optional.of(RDFFormat.TURTLE));
+        assertEquals(Optional.of(RDFFormat.TURTLE), Rio.getParserFormatForFileName(templateFilename));
 
     }
 
