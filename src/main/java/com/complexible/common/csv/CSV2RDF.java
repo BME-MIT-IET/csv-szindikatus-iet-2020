@@ -150,7 +150,7 @@ public class CSV2RDF implements Runnable {
 		private List<StatementGenerator> stmts = Lists.newArrayList();
 		private List<ValueProvider> valueProviders = Lists.newArrayList();
 
-		Template(List<String> cols, File templateFile, RDFWriter writer) throws IOException, RDFHandlerException, RDFParseException {
+		Template(List<String> cols, File templateFile, RDFWriter writer) throws IOException {
 			parseTemplate(cols, templateFile, writer);
 		}
 
@@ -213,17 +213,17 @@ public class CSV2RDF implements Runnable {
 				private Map<Value, ValueGenerator> generators = Maps.newHashMap();
 
 				@Override
-				public void startRDF() throws RDFHandlerException {
+				public void startRDF() {
 					writer.startRDF();
 				}
 
 				@Override
-				public void handleNamespace(String prefix, String uri) throws RDFHandlerException {
+				public void handleNamespace(String prefix, String uri) {
 					writer.handleNamespace(prefix, uri);
 				}
 
 				@Override
-				public void handleStatement(Statement st) throws RDFHandlerException {
+				public void handleStatement(Statement st) {
 					ValueGenerator<Resource> subject = generatorFor(st.getSubject());
 					ValueGenerator<URI> predicate = generatorFor(st.getPredicate());
 					ValueGenerator<Value> object = generatorFor(st.getObject());
