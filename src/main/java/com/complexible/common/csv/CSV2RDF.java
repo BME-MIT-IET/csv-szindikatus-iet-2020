@@ -10,6 +10,7 @@ import io.airlift.command.Option;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,6 @@ import org.openrdf.rio.helpers.RDFHandlerBase;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVParser;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -53,7 +53,7 @@ import com.google.common.io.Files;
 @Command(name = "convert", description = "Runs the conversion.")
 public class CSV2RDF implements Runnable {
 	private static final Charset INPUT_CHARSET = Charset.defaultCharset();
-	private static final Charset OUTPUT_CHARSET = Charsets.UTF_8;
+	private static final Charset OUTPUT_CHARSET = StandardCharsets.UTF_8;
 	private static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
 	private static ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
 
@@ -201,7 +201,7 @@ public class CSV2RDF implements Runnable {
 			return index == -1 ? null : new RowValueProvider(index);
 		}
 
-		private void parseTemplate(List<String> cols, File templateFile, final RDFWriter writer) throws IOException, RDFHandlerException, RDFParseException {
+		private void parseTemplate(List<String> cols, File templateFile, final RDFWriter writer) throws IOException {
 			String templateStr = insertPlaceholders(cols, templateFile);
 
 			RDFFormat format = Rio.getParserFormatForFileName(templateFile.getName()).orElse(RDFFormat.TURTLE);
@@ -271,7 +271,7 @@ public class CSV2RDF implements Runnable {
 			parser.parse(new StringReader(templateStr), "urn:");
 		}
 
-		public void generate(String[] row, RDFHandler handler) throws RDFHandlerException {
+		public void generate(String[] row, RDFHandler handler) {
 			inputRows++;
 			for (StatementGenerator stmt : stmts) {
 				outputTriples++;
