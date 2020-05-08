@@ -2,9 +2,12 @@ package com.complexible.common.csv;
 
 
 import org.junit.Test;
+import org.junit.platform.commons.util.Preconditions;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
+
+import com.google.common.base.Preconditions;
 
 import java.util.Optional;
 
@@ -53,10 +56,13 @@ public class DependencyTest {
     }
 
     /**
-     * Check how it works
+     * Check if the Preconditions.checkArguments works correctly.
      */
     @Test
-    public void testTest(){
-        assertEquals(1, 1);
+    public void preconditionsCheckArgumentTest(){
+        String value = "T";
+        Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got %s", value);
+
+        /*Test passes if no exceptions were thrown*/
     }
 }
