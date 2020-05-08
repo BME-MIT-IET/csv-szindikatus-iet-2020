@@ -101,6 +101,6 @@ public class DependencyTest {
         List<String> list1 = Lists.newArrayList();
 
         assertEquals(0, list1.size());
-        assertEquals(true, list1.getClass().toString().equals("class java.util.ArrayList"));
+        assertEquals(false, list1.getClass().toString().equals("class java.util.ArrayList"));
     }
 }
