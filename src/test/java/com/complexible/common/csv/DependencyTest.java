@@ -61,7 +61,7 @@ public class DependencyTest {
     @Test
     public void preconditionsCheckArgumentTest(){
         String value = "T";
-        Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got %s", value);
+        com.google.common.base.Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got %s", value);
 
         /*Test passes if no exceptions were thrown*/
     }
