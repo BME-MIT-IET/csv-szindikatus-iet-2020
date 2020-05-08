@@ -96,12 +96,12 @@ public class DependencyTest {
 
         /*Test passes of no exceptions were thrown */
     }
-    
+
     @Test
     public void listsSizeTest(){
         List<String> list1 = Lists.newArrayList();
 
         assertEquals(0, list1.size());
-        assertEquals(false, list1.getClass().toString().equals("class java.util.ArrayList"));
+        assertEquals(true, list1.getClass().toString().equals("class java.util.ArrayList"));
     }
 }
