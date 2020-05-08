@@ -59,7 +59,7 @@ public class DependencyTest {
      */
     @Test
     public void preconditionsCheckArgumentTest(){
-        String value = "TT";
+        String value = "T";
         try{
             Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got %s", value);
         }
@@ -67,9 +67,31 @@ public class DependencyTest {
             /*To make a failure rather than an error if the test did not pass
               Either IllegalArgumentException or NullPointerException is thrown
             */
-            assertEquals(false, true);
+            assertEquals(true, false);
+        }
+        try{
+            Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got multiple");
+        }
+        catch(IllegalArgumentException e){
+            /*The method with only 2 arguments can only throw IllegalArgumentException*/
+            assertEquals(true, false);
         }
 
-        /*Test passes if no exceptions were thrown*/
+        /*Test passes if neither of the calls throw an exception*/
+    }
+
+    @Test
+    public void preconditionsCheckNotNullTest(){
+        String[] row = new String[]{"Hello", "this", "is", "a", "test"};
+
+        try{
+        Preconditions.checkNotNull(row, "Input file is empty!");
+        }
+        catch(NullPointerException e){
+            /*The method can only throw a NullPointerException*/
+            assertEquals(true, false);
+        }
+
+        /*Test passes of no exceptions were thrown */
     }
 }
