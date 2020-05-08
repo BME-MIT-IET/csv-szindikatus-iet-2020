@@ -96,8 +96,9 @@ public class DependencyTest {
 
         /*Test passes of no exceptions were thrown */
     }
-
-    public void listsTest(){
+    
+    @Test
+    public void listsSizeTest(){
         List<String> list1 = Lists.newArrayList();
 
         assertEquals(0, list1.size());
