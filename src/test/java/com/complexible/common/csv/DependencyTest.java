@@ -7,7 +7,9 @@ import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -93,5 +95,12 @@ public class DependencyTest {
         }
 
         /*Test passes of no exceptions were thrown */
+    }
+
+    public void listsTest(){
+        List<String> list1 = Lists.newArrayList();
+
+        assertEquals(0, list1.size());
+        assertEquals(true, list1.getClass().toString().equals("class java.util.ArrayList"));
     }
 }
