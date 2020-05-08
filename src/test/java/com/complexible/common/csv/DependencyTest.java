@@ -52,4 +52,11 @@ public class DependencyTest {
 
     }
 
+    /**
+     * Check how it works
+     */
+    @Test
+    public void testTest(){
+        assertEquals(1, 1);
+    }
 }
