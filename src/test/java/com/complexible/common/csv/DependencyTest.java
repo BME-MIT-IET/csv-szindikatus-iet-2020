@@ -60,7 +60,15 @@ public class DependencyTest {
     @Test
     public void preconditionsCheckArgumentTest(){
         String value = "TT";
-        Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got %s", value);
+        try{
+            Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got %s", value);
+        }
+        catch(Exception e){
+            /*To make a failure rather than an error if the test did not pass
+              Either IllegalArgumentException or NullPointerException is thrown
+            */
+            assertEquals(false, true);
+        }
 
         /*Test passes if no exceptions were thrown*/
     }
