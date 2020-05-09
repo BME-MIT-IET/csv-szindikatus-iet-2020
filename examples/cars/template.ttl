@@ -38,7 +38,7 @@
     gr:hasMakeAndModel :Model-#{Model} ;
     vso:modelDate "${Year}-01-01"^^xsd:date .
 
-# Special variable #{_UUID_} can be used to insert a unique string for each its occurence
+# Special variable #{_UUID_} can be used to insert a unique string for each its occurrence
 # Bnodes can be used in the template as seen below. Same bnode 
 
 :Offer-#{_UUID_} a gr:Offering ;

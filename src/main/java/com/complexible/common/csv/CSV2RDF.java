@@ -58,7 +58,7 @@ public class CSV2RDF implements Runnable {
     @Option(name = "--no-header", arity = 0, description = "If csv file does not contain a header row")
     private final boolean noHeader = false;
 
-    @Option(name = { "-s", "--separator" }, description = "Seperator character used in the csv file or ',' by default.")
+    @Option(name = { "-s", "--separator" }, description = "Separator character used in the csv file or ',' by default.")
     private final String separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
 
     @Option(name = { "-q", "--quote" }, description = "Quote character used in the csv file or '\"' by default.")
@@ -108,15 +108,15 @@ public class CSV2RDF implements Runnable {
             writer.endRDF();
         }
         catch (IOException e) {
-            processLogger.logError("IOException occured during run");
+            processLogger.logError("IOException occurred during run");
         }
         catch(RDFHandlerException e)
         {
-            processLogger.logError("RDFHandlerException occured during run");
+            processLogger.logError("RDFHandlerException occurred during run");
         }
         catch(Exception e)
         {
-            processLogger.logError("Exception occured during run");
+            processLogger.logError("Exception occurred during run");
         }
         processLogger.logInfo(String.format("Converted %,d rows to %,d triples%n", inputRows, outputTriples));
 
