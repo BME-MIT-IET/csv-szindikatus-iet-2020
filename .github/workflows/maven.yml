@@ -17,4 +17,4 @@ jobs:
       with:
         java-version: 11
     - name: Install dependencies, build and execute tests with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml sonar:sonar
