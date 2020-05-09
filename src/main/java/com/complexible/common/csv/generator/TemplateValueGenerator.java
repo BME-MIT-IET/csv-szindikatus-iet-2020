@@ -8,12 +8,12 @@ abstract class TemplateValueGenerator<V extends Value> implements ValueGenerator
     private final String template;
     private final ValueProvider[] providers;
 
-    protected TemplateValueGenerator(String template, ValueProvider[] providers) {
+    TemplateValueGenerator(String template, ValueProvider[] providers) {
         this.template = template;
         this.providers = providers;
     }
 
-    protected String applyTemplate(int rowIndex, String[] row) {
+    String applyTemplate(int rowIndex, String[] row) {
         String result = template;
         for (ValueProvider provider : providers) {
             String value = provider.provide(rowIndex, row);

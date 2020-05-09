@@ -1,6 +1,5 @@
 package com.complexible.common.csv.generator;
 
-import com.complexible.common.csv.CSV2RDF;
 import org.openrdf.model.Value;
 
 public class ConstantValueGenerator<V extends Value> implements ValueGenerator<V> {
