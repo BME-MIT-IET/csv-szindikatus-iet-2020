@@ -12,8 +12,8 @@ Building
 Running
 -------
 
-You can run the tool with the command `java -jar build/CSV2RDF.jar` followed by arguments.
+list **available commands**:
+`java -jar build/CSV2RDF.jar help convert`.
 
-You can see the help screen with the command `java -jar build/CSV2RDF.jar help convert`.
-
-You can run the conversion for the example using `java -jar build/CSV2RDF.jar convert examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`. 
+**run coversion** (assuming a directory named out has been created):
+`java -jar build/CSV2RDF.jar convert examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`. 
