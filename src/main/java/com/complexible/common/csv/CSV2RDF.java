@@ -8,6 +8,16 @@ import com.complexible.common.csv.provider.RowNumberProvider;
 import com.complexible.common.csv.provider.RowValueProvider;
 import com.complexible.common.csv.provider.UUIDProvider;
 import com.complexible.common.csv.provider.ValueProvider;
+
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVParser;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.common.io.Files;
+
 import io.airlift.command.Arguments;
 import io.airlift.command.Command;
 import io.airlift.command.Option;
@@ -34,24 +44,26 @@ import org.openrdf.rio.*;
 import org.openrdf.rio.helpers.BasicParserSettings;
 import org.openrdf.rio.helpers.RDFHandlerBase;
 
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVParser;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.common.io.Files;
 
 /**
- * Converts a CSV file to RDF based on a given template
- * 
+ * Converts a CSV file to RDF based on a given template.
+ *
  * @author Evren Sirin
  */
 @Command(name = "convert", description = "Runs the conversion.")
 public class CSV2RDF implements Runnable {
+
+    /**
+     * The charset used to read the input file.
+     */
     private static final Charset INPUT_CHARSET = Charset.defaultCharset();
+
+    /**
+     * The charset used to write the output file.
+     */
     public static final Charset OUTPUT_CHARSET = StandardCharsets.UTF_8;
+
+
     public static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
     public static final ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
 
@@ -69,6 +81,7 @@ public class CSV2RDF implements Runnable {
 
     @Arguments(required = true, description = "File arguments. The extension of template file and output file determines the RDF format that will be used for them (.ttl = Turtle, .nt = N-Triples, .rdf = RDF/XML)",
             title = "templateFile, csvFile, outputFile" )
+
     private List<String> files;
     private int inputRows = 0;
     private int outputTriples = 0;
@@ -130,7 +143,7 @@ public class CSV2RDF implements Runnable {
     private static ParserConfig getParserConfig() {
         ParserConfig config = new ParserConfig();
 
-        Set<RioSetting<?>> aNonFatalErrors = Sets.<RioSetting<?>> newHashSet(
+        Set<RioSetting<?>> aNonFatalErrors = Sets.newHashSet(
                         BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, BasicParserSettings.FAIL_ON_UNKNOWN_LANGUAGES);
 
         config.setNonFatalErrors(aNonFatalErrors);
