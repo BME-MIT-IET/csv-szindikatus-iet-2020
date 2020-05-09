@@ -55,7 +55,7 @@ public class CSV2RDF implements Runnable {
 	public static final Charset INPUT_CHARSET = Charset.defaultCharset();
 	public static final Charset OUTPUT_CHARSET = StandardCharsets.UTF_8;
 	public static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
-	private static ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
+	public static ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
 
 	@Option(name = "--no-header", arity = 0, description = "If csv file does not contain a header row")
 	private boolean noHeader = false;
@@ -277,18 +277,6 @@ public class CSV2RDF implements Runnable {
 				outputTriples++;
 				handler.handleStatement(stmt.generate(inputRows, row));
 			}
-		}
-	}
-
-	public static void main(String[] args) {
-		try {
-			Cli.<Runnable> builder("csv2rdf").withDescription("Converts a CSV file to RDF based on a given template")
-			                .withDefaultCommand(CSV2RDF.class).withCommand(CSV2RDF.class).withCommand(Help.class)
-			                .build().parse(args).run();
-		}
-		catch (Exception e) {
-			processLogger.logError("ERROR: "+(e.getMessage()));
-
 		}
 	}
 
