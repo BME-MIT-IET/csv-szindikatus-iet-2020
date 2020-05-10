@@ -12,13 +12,13 @@ Az alapértelmezett fordítási opció:<br>
 
 Ez a parancs létrehozza a **build** mappában a lefordított forrásállományokat és a futtatható java alkalmazást (CSV2RDF.jar).
 
-<div style="text-align:center"><img src="../images/maven-menu.png" />
+<div style="text-align:center"><img src="images/maven-menu.png" />
     <p style="text-align:center"><em>Maven menü az IntelliJ IDEA jobb oldalán.</em></p>
 </div>
 
 A Maven konfigurációs fájljába (*pom.xml*) összesen 9 függőséget vettünk fel. A függőségek felvételekor meg kellett adnunk a kiválasztott függőség verzióját is. A csomagok esetén a legfrissebb verziót adtuk meg, ezért szükségessé vált a projekt frissítése az újabb API-khoz. A frissítéseket elvégeztük, több esetben problémát okozott a régi függőségek lecserélése, így ez viszonylag hosszadalmas folyamat volt.
 
-<div style="text-align:center"><img src="../images/maven-dependency.png" />
+<div style="text-align:center"><img src="images/maven-dependency.png" />
     <p style="text-align:center"><em>Függőség a Maven konfigurációs fájljában.</em></p>
 </div>
 
