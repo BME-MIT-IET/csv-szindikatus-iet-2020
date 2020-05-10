@@ -2,6 +2,12 @@
 
 package com.complexible.common.csv;
 
+import com.complexible.common.csv.generator.*;
+import com.complexible.common.csv.logger.ProcessBehaviourLogger;
+import com.complexible.common.csv.provider.RowNumberProvider;
+import com.complexible.common.csv.provider.RowValueProvider;
+import com.complexible.common.csv.provider.UUIDProvider;
+import com.complexible.common.csv.provider.ValueProvider;
 import io.airlift.command.Arguments;
 import io.airlift.command.Cli;
 import io.airlift.command.Command;
@@ -15,9 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,9 +43,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.common.hash.HashCode;
-import com.google.common.hash.Hashing;
-import com.google.common.io.BaseEncoding;
 import com.google.common.io.Files;
 
 /**
@@ -52,10 +52,10 @@ import com.google.common.io.Files;
  */
 @Command(name = "convert", description = "Runs the conversion.")
 public class CSV2RDF implements Runnable {
-	private static final Charset INPUT_CHARSET = Charset.defaultCharset();
-	private static final Charset OUTPUT_CHARSET = StandardCharsets.UTF_8;
-	private static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
-	private static ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
+	public static final Charset INPUT_CHARSET = Charset.defaultCharset();
+	public static final Charset OUTPUT_CHARSET = StandardCharsets.UTF_8;
+	public static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
+	public static ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
 
 	@Option(name = "--no-header", arity = 0, description = "If csv file does not contain a header row")
 	private boolean noHeader = false;
@@ -164,8 +164,8 @@ public class CSV2RDF implements Runnable {
 				String varName = var.substring(2, var.length() - 1);
 				ValueProvider valueProvider = valueProviderFor(varName, cols);
 				Preconditions.checkArgument(valueProvider != null, "Invalid template variable", var);
-				valueProvider.isHash = (var.charAt(0) == '#');
-				m.appendReplacement(sb, valueProvider.placeholder);
+				valueProvider.setHashed((var.charAt(0) == '#'));
+				m.appendReplacement(sb, valueProvider.getPlaceholder());
 				valueProviders.add(valueProvider);
 			}
 			m.appendTail(sb);
@@ -175,10 +175,10 @@ public class CSV2RDF implements Runnable {
 
 		private ValueProvider valueProviderFor(String varName, List<String> cols) {
 			if (varName.equalsIgnoreCase("_ROW_")) {
-				return new RowNumberProvider(); 
+				return new RowNumberProvider();
 			}
 			if (varName.equalsIgnoreCase("_UUID_")) {
-				return new UUIDProvider(); 
+				return new UUIDProvider();
 			}
 			
 			int index = -1;			
@@ -260,7 +260,7 @@ public class CSV2RDF implements Runnable {
 				private ValueProvider[] providersFor(String str) {
 					List<ValueProvider> result = Lists.newArrayList();
 					for (ValueProvider provider : valueProviders) {
-						if (str.contains(provider.placeholder)) {
+						if (str.contains(provider.getPlaceholder())) {
 							result.add(provider);
 						}  
                     }
@@ -280,175 +280,4 @@ public class CSV2RDF implements Runnable {
 		}
 	}
 
-	private static class StatementGenerator {
-		private final ValueGenerator<Resource> subject;
-		private final ValueGenerator<URI> predicate;
-		private final ValueGenerator<Value> object;
-
-		private StatementGenerator(ValueGenerator<Resource> s, ValueGenerator<URI> p, ValueGenerator<Value> o) {
-			this.subject = s;
-			this.predicate = p;
-			this.object = o;
-		}
-
-		private Statement generate(int rowIndex, String[] row) {
-			Resource s = subject.generate(rowIndex, row);
-			URI p = predicate.generate(rowIndex, row);
-			Value o = object.generate(rowIndex, row);
-			return FACTORY.createStatement(s, p, o);
-		}
-	}
-
-	private abstract static class ValueProvider {
-		 private final String placeholder = UUID.randomUUID().toString();
-		 private boolean isHash;
-
-		public String provide(int rowIndex, String[] row) {
-			 String value = provideValue(rowIndex, row);
-			 if (value != null && isHash) {
-				HashCode hash = Hashing.sha1().hashString(value, OUTPUT_CHARSET);
-				value = BaseEncoding.base32Hex().omitPadding().lowerCase().encode(hash.asBytes());
-			 }
-			 return value;
-		 }
-
-		 protected abstract String provideValue(int rowIndex, String[] row);
-	}
-
-	private static class RowValueProvider extends ValueProvider {
-		private final int colIndex;
-
-		private RowValueProvider(int colIndex) {
-			this.colIndex = colIndex;
-		}
-
-		protected String provideValue(int rowIndex, String[] row) {
-			return row[colIndex];
-		}
-	}
-
-	private static class RowNumberProvider extends ValueProvider {
-		protected String provideValue(int rowIndex, String[] row) {
-			return String.valueOf(rowIndex);
-		}
-	}
-
-	private static class UUIDProvider extends ValueProvider {
-		private String value = null;
-		private int generatedRow = -1;
-		
-		protected String provideValue(int rowIndex, String[] row) {
-			if (value == null || generatedRow != rowIndex) {
-				value = UUID.randomUUID().toString();
-				generatedRow = rowIndex;
-			}
-			return value;
-		}
-	}
-
-	private interface ValueGenerator<V extends Value> {
-		V generate(int rowIndex, String[] row);
-	}
-
-	private static class ConstantValueGenerator<V extends Value> implements ValueGenerator<V> {
-		private final V value;
-
-		private ConstantValueGenerator(V value) {
-			this.value = value;
-		}
-
-		public V generate(int rowIndex, String[] row) {
-			return value;
-		}
-	}
-
-	private static class BNodeGenerator implements ValueGenerator<BNode> {
-		private BNode value = null;
-		private int generatedRow = -1;
-
-		public BNode generate(int rowIndex, String[] row) {
-			if (value == null || generatedRow != rowIndex) {
-				value = FACTORY.createBNode();
-				generatedRow = rowIndex;
-			}
-			return value;
-		}
-	}
-
-	private abstract static class TemplateValueGenerator<V extends Value> implements ValueGenerator<V> {
-		private final String template;
-		private final ValueProvider[] providers;
-
-		protected TemplateValueGenerator(String template, ValueProvider[] providers) {
-			this.template = template;
-			this.providers = providers;
-		}
-
-		protected String applyTemplate(int rowIndex, String[] row) {
-			String result = template;
-			for (ValueProvider provider : providers) {
-				String value = provider.provide(rowIndex, row);
-				if (value != null && !value.isEmpty()) {
-					result = result.replace(provider.placeholder, value);
-				}
-			}
-			return result;
-		}
-	}
-
-	private static class TemplateURIGenerator extends TemplateValueGenerator<URI> {
-		private TemplateURIGenerator(String template, ValueProvider[] providers) {
-			super(template, providers);
-		}
-
-		public URI generate(int rowIndex, String[] row) {
-			return FACTORY.createURI(applyTemplate(rowIndex, row));
-		}
-	}
-
-	private static class TemplateLiteralGenerator extends TemplateValueGenerator<Literal> {
-		private final URI datatype;
-		private final String lang;
-
-		private TemplateLiteralGenerator(Literal literal, ValueProvider[] providers) {
-			super(literal.getLabel(), providers);
-
-			this.datatype = literal.getDatatype();
-			this.lang = literal.getLanguage().orElse(null);
-		}
-
-		public Literal generate(int rowIndex, String[] row) {
-			String value = applyTemplate(rowIndex, row);
-			if (datatype != null)
-				return FACTORY.createLiteral(value, datatype);
-
-			if (lang != null)
-				return FACTORY.createLiteral(value, lang);
-
-			return FACTORY.createLiteral(value);
-		}
-	}
-
-	public static void main(String[] args) {
-		try {
-			Cli.<Runnable> builder("csv2rdf").withDescription("Converts a CSV file to RDF based on a given template")
-			                .withDefaultCommand(CSV2RDF.class).withCommand(CSV2RDF.class).withCommand(Help.class)
-			                .build().parse(args).run();
-		}
-		catch (Exception e) {
-			processLogger.logError("ERROR: "+(e.getMessage()));
-
-		}
-	}
-	static final class ProcessBehaviourLogger{
-		private static final Logger processLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-		public void logInfo(String message)
-		{
-			processLogger.log(Level.INFO, message);
-		}
-		public void logError(String message)
-		{
-			processLogger.log(Level.WARNING,message);
-		}
-	}
 }
