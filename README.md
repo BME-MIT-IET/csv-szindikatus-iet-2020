@@ -7,17 +7,15 @@ CSV2RDF is a simple tool for **generating RDF** output **from CSV/TSV** files.<b
 Conversion is done by a **template file** describing one row of the desired output.<br>
 See [examples/cars](examples/cars) for details. 
 
-Building
---------
+### Building
 
-**Build jar** file in the build directory
+**Build jar** file in the build directory:<br>
 `mvn -B package`
 
-Running
--------
+### Running
 
-List **available commands**:
+List **available commands**:<br>
 `java -jar build/CSV2RDF.jar help convert`
 
-**Run coversion** (assuming a directory named out has been created):
-`java -jar build/CSV2RDF.jar convert examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`. 
+**Run conversion** (assuming a directory named out has been created):<br>
+`java -jar build/CSV2RDF.jar convert examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`

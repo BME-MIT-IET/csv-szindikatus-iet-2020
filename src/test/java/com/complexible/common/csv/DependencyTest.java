@@ -12,14 +12,12 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains tests for the project dependencies.
  */
 public class DependencyTest {
-
-    private String templateFilename = "examples/cars/template.ttl";
 
     /**
      * Check if tests run properly.
@@ -27,7 +25,7 @@ public class DependencyTest {
     @Test
     public void sanityCheck() {
 
-        assertEquals(true, true);
+        assertTrue(true);
 
     }
 
@@ -37,6 +35,7 @@ public class DependencyTest {
     @Test
     public void formatDetectionTest() {
 
+        String templateFilename = "examples/cars/template.ttl";
         Optional<RDFFormat> format = Rio.getParserFormatForFileName(templateFilename);
 
         assertEquals(Optional.of(RDFFormat.TURTLE), format);
@@ -69,14 +68,14 @@ public class DependencyTest {
             /*To make a failure rather than an error if the test did not pass
               Either IllegalArgumentException or NullPointerException is thrown
             */
-            assertEquals(true, false);
+            assertTrue(false);
         }
         try{
             Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got multiple");
         }
         catch(IllegalArgumentException e){
             /*The method with only 2 arguments can only throw IllegalArgumentException*/
-            assertEquals(true, false);
+            fail();
         }
 
         /*Test passes if neither of the calls throw an exception*/
@@ -91,7 +90,7 @@ public class DependencyTest {
         }
         catch(NullPointerException e){
             /*The method can only throw a NullPointerException*/
-            assertEquals(true, false);
+            fail();
         }
 
         /*Test passes of no exceptions were thrown */
@@ -102,6 +101,6 @@ public class DependencyTest {
         List<String> list1 = Lists.newArrayList();
 
         assertEquals(0, list1.size());
-        assertEquals(true, list1.getClass().toString().equals("class java.util.ArrayList"));
+        assertEquals("class java.util.ArrayList", list1.getClass().toString());
     }
 }
