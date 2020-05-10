@@ -119,6 +119,7 @@
                     <goal>single</goal>
                     </goals>
                     <configuration>
+
                     <finalName>${project.artifactId}</finalName>
                     <archive>
                         <manifest>
@@ -130,6 +131,7 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <appendAssemblyId>false</appendAssemblyId>
+
                     </configuration>
                 </execution>
                 </executions>
