@@ -2,7 +2,7 @@
 
 A projekt mappaszerkezetét újra kellett gondolni a Maven beüzemelése miatt. A projektből eltávolítottuk a szétszórt módon szervezett lib mappát, mert a Maven beüzemelése után már nem volt rá szükség.
 
-<div style="text-align:center"><img src="../images/lib-folder.png" />
+<div style="text-align:center"><img src="images/lib-folder.png" />
     <p style="text-align:center"><em>Szétszórt módon szervezett lib mappa. A mappa tartalmát az `ls -lR` parancs segítségével jelenítettük meg. Rövid elmélkedés után beláttuk, hogy a belső lib mappa csak véletlenül került a mappába.</em></p>
 </div>
 
@@ -10,7 +10,7 @@ A src mappa belső struktúráját a Maven által elvárt struktúrához igazít
 
 Némileg időigényesebb folyamat volt a projekt *egyetlen* forrásállományának tartalmát több fájlba szervezni. Létrehoztunk új csomagokat a logger, provider és generator csomagokat. Ezekben elhelyeztük a csomagba tartozó osztályokat.
 
-<div style="text-align:center"><img src="../images/packages.png" />
+<div style="text-align:center"><img src="images/packages.png" />
     <p style="text-align:center"><em>A csapat által végzett refaktoring eredménye.</em></p>
 </div>
 
