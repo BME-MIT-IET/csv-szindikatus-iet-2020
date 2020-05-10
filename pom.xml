@@ -88,7 +88,7 @@
         <sonar.projectKey>BME-MIT-IET_csv-szindikatus-iet-2020</sonar.projectKey>
         <sonar.organization>bme-mit-iet-org</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.login>01c719812b3dfb1cf2d9326bda46dc651218e7dc</sonar.login>
+        <sonar.login>SONAR_TOKEN</sonar.login>
     </properties>
 
     <build>
