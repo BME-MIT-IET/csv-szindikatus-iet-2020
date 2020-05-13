@@ -8,8 +8,6 @@ import com.google.common.io.BaseEncoding;
 import java.util.UUID;
 
 public abstract class ValueProvider {
-
-
     private final String placeholder = UUID.randomUUID().toString();
 
     private boolean hashed;
