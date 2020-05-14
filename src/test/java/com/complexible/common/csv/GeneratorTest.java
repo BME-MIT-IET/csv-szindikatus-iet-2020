@@ -136,11 +136,11 @@ public class GeneratorTest {
 
 
     /**
-     * Tests the BlankNodeGenerator generate method. 
-     * The test generate blank node on same row index.
+     * Tests the BlankNodeGenerator generator method with same row index.
+     * The two node must be same.
      */
     @Test
-    public void BNodeGeneratorTest(){
+    public void BNodeGeneratorOnSameRowTest(){
         BNodeGenerator bNodeGenerator = new BNodeGenerator();
 
         final int rowIndex = 1;
@@ -151,6 +151,25 @@ public class GeneratorTest {
         BNode secondGeneratedNode = bNodeGenerator.generate(rowIndex, secondRows);
 
         assertEquals(true, firstGeneratedNode.equals(secondGeneratedNode));
+    }
+
+   /**
+     * Tests the BlankNodeGenerator generator method with same row index
+     * The two node must be different
+     */
+    @Test
+    public void BNodeGeneratorOnDifferentRowTest(){
+        BNodeGenerator bNodeGenerator = new BNodeGenerator();
+
+        final int firstRowIndex = 1;
+        final int secondRowIndex = 2;
+        final String[] firstRows = {"First", "rows"};
+        final String[] secondRows = {"Second", "rows"};
+
+        BNode firstGeneratedNode = bNodeGenerator.generate(firstRowIndex, firstRows);
+        BNode secondGeneratedNode = bNodeGenerator.generate(secondRowIndex, secondRows);
+
+        assertEquals(false, firstGeneratedNode.equals(secondGeneratedNode));
     }
 
 }
