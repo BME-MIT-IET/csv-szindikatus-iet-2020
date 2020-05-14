@@ -10,6 +10,8 @@ import com.complexible.common.csv.provider.ValueProvider;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.model.Literal;
+import org.openrdf.model.impl.NumericLiteralImpl;
 
 import javax.xml.stream.FactoryConfigurationError;
 
@@ -54,5 +56,31 @@ public class GeneratorTest {
         URI uri = tug.generate(rowIndex, array);
         URI expectedURI = FACTORY.createURI(expectedString);
         assertEquals(true, expectedURI.equals(uri));
+    }
+
+    /**
+     * Tests the TemplateLiteralGenerator subclass of the TemplateValueGenerator
+     */
+    @Test
+    public void TemplateLiteralGeneratorTest(){
+        Literal literal = new NumericLiteralImpl(2);
+        String template = literal.getLabel();
+        ValueProvider[] providers = new ValueProvider[1];
+        RowNumberProvider rnp = new RowNumberProvider();
+        providers[0] = rnp;
+        String expected = template.replace(rnp.getPlaceholder(), "1");
+        TemplateLiteralGenerator tlg = new TemplateLiteralGenerator(literal, providers);
+        Literal result = tlg.generate(rowIndex, array);
+        Literal expectedLiteral;
+        if(literal.getDataType() != null){
+            expectedLiteral = FACTORY.createLiteral(expected, literal.getDataType());
+        }
+        else if(literal.getLanguage().orElse(null) != null){
+            expectedLiteral = FACTORY.createLiteral(expected, literal.getLanguage().orElse(null));
+        }
+        else{
+            expectedLiteral = FACTORY.createLiteral(expected);
+        }
+        assertEquals(true, expectedLiteral.equals(result));
     }
 }
