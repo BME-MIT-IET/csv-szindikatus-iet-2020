@@ -22,12 +22,12 @@ public class GeneratorTest {
         RowNumberProvider rnp = new RowNumberProvider();
         providers[0] = rnp;
         String ph = rnp.getPlaceholder();
-        String template = ph+"hello"+ph+ph;
+        String template = "http://" + ph + "hello" + ph + ph + ".com";
         int rowIndex = 1;
         String[] array = new String[]{"Hello","this","is","a","test"};
         TemplateURIGenerator tug = new TemplateURIGenerator(template, providers);
         URI uri = tug.generate(rowIndex, array);
-        String expectedString = "1hello11";
+        String expectedString = "http://1hello11.com";
         ValueFactory FACTORY = ValueFactoryImpl.getInstance();
         URI expectedURI = FACTORY.createURI(expectedString);
         assertEquals(true, expectedURI.equals(uri));
