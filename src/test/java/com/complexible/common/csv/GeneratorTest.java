@@ -73,8 +73,8 @@ public class GeneratorTest {
         TemplateLiteralGenerator tlg = new TemplateLiteralGenerator(literal, providers);
         Literal result = tlg.generate(rowIndex, array);
         Literal expectedLiteral;
-        if(literal.getDataType() != null){
-            expectedLiteral = FACTORY.createLiteral(expected, literal.getDataType());
+        if(literal.getDatatype() != null){
+            expectedLiteral = FACTORY.createLiteral(expected, literal.getDatatype());
         }
         else if(literal.getLanguage().orElse(null) != null){
             expectedLiteral = FACTORY.createLiteral(expected, literal.getLanguage().orElse(null));
