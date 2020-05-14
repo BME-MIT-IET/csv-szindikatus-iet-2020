@@ -11,9 +11,10 @@ import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.Literal;
-import org.openrdf.model.impl.NumericLiteralImpl;
+import org.openrdf.model.impl.IntegerLiteralImpl;
 
 import javax.xml.stream.FactoryConfigurationError;
+import java.math.BigInteger;
 
 public class GeneratorTest {
 
@@ -63,7 +64,7 @@ public class GeneratorTest {
      */
     @Test
     public void TemplateLiteralGeneratorTest(){
-        Literal literal = new NumericLiteralImpl(2);
+        Literal literal = new IntegerLiteralImpl(BigInteger.ONE);
         String template = literal.getLabel();
         ValueProvider[] providers = new ValueProvider[1];
         RowNumberProvider rnp = new RowNumberProvider();
