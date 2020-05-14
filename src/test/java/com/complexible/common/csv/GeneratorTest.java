@@ -44,6 +44,8 @@ public class GeneratorTest {
         ValueProvider[] providers = new ValueProvider[2];
         RowNumberProvider rnp = new RowNumberProvider();
         RowValueProvider rvp = new RowValueProvider(1);
+        providers[0] = rnp;
+        providers[1] = rvp;
         String rnpPH = rnp.getPlaceholder();
         String rvpPH = rvp.getPlaceholder();
         String template = "http://" + rnpPH + rvpPH + "hello" + rnpPH + ".com";
