@@ -11,6 +11,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.Literal;
+import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.impl.IntegerLiteralImpl;
 
 import javax.xml.stream.FactoryConfigurationError;
