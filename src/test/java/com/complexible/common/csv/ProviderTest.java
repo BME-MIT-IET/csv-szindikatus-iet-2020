@@ -29,4 +29,14 @@ public class ProviderTest {
         String result = rvp.provide(rowIndex, array);
         assertEquals(result, array[2]);
     }
+
+    /**
+     * Tests the UUIDProvider subclass of the Provider abstract class
+     */
+    @Test
+    public void UUIDProviderTest(){
+        UUIDProvider up = new UUIDProvider();
+        String result = up.provide(rowIndex, array);
+        assertNotEquals(null, result);
+    }
 }
