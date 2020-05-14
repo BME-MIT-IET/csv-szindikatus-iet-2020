@@ -64,7 +64,8 @@ public class GeneratorTest {
      */
     @Test
     public void TemplateLiteralGeneratorTest(){
-        Literal literal = new LiteralImpl("testLabel", "english");
+        URI uri = FACTORY.createURI("english");
+        Literal literal = new LiteralImpl("testLabel", uri);
         String template = literal.getLabel();
         ValueProvider[] providers = new ValueProvider[1];
         RowNumberProvider rnp = new RowNumberProvider();
