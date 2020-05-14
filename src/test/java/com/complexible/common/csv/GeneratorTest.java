@@ -64,7 +64,7 @@ public class GeneratorTest {
      */
     @Test
     public void TemplateLiteralGeneratorTest(){
-        Literal literal = new LiteralImpl("testLabel", "testLanguage");
+        Literal literal = new LiteralImpl("testLabel", "english");
         String template = literal.getLabel();
         ValueProvider[] providers = new ValueProvider[1];
         RowNumberProvider rnp = new RowNumberProvider();
