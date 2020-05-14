@@ -11,6 +11,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
 import org.openrdf.model.impl.IntegerLiteralImpl;
 
 import javax.xml.stream.FactoryConfigurationError;
@@ -84,4 +85,22 @@ public class GeneratorTest {
         }
         assertEquals(true, expectedLiteral.equals(result));
     }
+
+    /**
+     * Tests the ConstantValueGenerator class 
+     */
+
+    @Test
+    public void ConstantValueGeneratorTest(){
+        URI uri = FACTORY.createURI("http://1thishello1.com");
+        ConstantValueGenerator constantValueGenerator = new ConstantValueGenerator<URI>(uri);
+        
+        final int rowIndex = -1;
+        final String[] rows = {"Not", "used", "by", "method", ":)"};
+
+        Value generatedUri = constantValueGenerator.generate(rowIndex, rows);
+
+        assertEquals(true, generatedUri.equals(uri));
+    }
+
 }
