@@ -12,6 +12,7 @@ public class ProviderTest {
         RowNumberProvider rnp = new RowNumberProvider();
         String[] array = new String[]{"Hello", "this", "is", "a", "test"};
         int rowIndex = 1;
+        rnp.setHashed(true);
         String result = rnp.provide(rowIndex, array);
         assertEquals(result, array[1]);
     }
