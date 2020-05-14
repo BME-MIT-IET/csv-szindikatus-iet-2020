@@ -85,4 +85,33 @@ public class GeneratorTest {
         }
         assertEquals(true, expectedLiteral.equals(result));
     }
+
+    /**
+     * Tests the TemplateLiteralGenerator class, if it gets more provider and an URI with placeholders
+     */
+    @Test
+    public void TemplateLiteralGeneratorWithMoreProvidersTest(){
+        ValueProvider[] providers = new ValueProvider[2];
+        RowNumberProvider rnp = new RowNumberProvider();
+        RowValueProvider rvp = new RowValueProvider(1);
+        providers[0] = rnp;
+        providers[1] = rvp;
+        URI uri = FACTORY.createURI("http://testuri" + rnp.getPlaceholder() + rvp.getPlaceholder() + ".com");
+        Literal literal = new LiteralImpl("testLabel", uri);
+        String template = literal.getLabel();
+        String expected = template.replace(rnp.getPlaceholder(), "1");
+        TemplateLiteralGenerator tlg = new TemplateLiteralGenerator(literal, providers);
+        Literal result = tlg.generate(rowIndex, array);
+        Literal expectedLiteral;
+        if(literal.getDatatype() != null){
+            expectedLiteral = FACTORY.createLiteral(expected, literal.getDatatype());
+        }
+        else if(literal.getLanguage().orElse(null) != null){
+            expectedLiteral = FACTORY.createLiteral(expected, literal.getLanguage().orElse(null));
+        }
+        else{
+            expectedLiteral = FACTORY.createLiteral(expected);
+        }
+        assertEquals(true, expectedLiteral.equals(result));
+    }
 }
