@@ -13,6 +13,7 @@ import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
 import org.openrdf.model.impl.LiteralImpl;
 
 import javax.xml.stream.FactoryConfigurationError;
@@ -21,14 +22,14 @@ import java.math.BigInteger;
 public class GeneratorTest {
 
     private int rowIndex = 1;
-    private String[] array = new String[]{"Hello","this","is","a","test"};
+    private String[] array = new String[] { "Hello", "this", "is", "a", "test" };
     private ValueFactory FACTORY = ValueFactoryImpl.getInstance();
 
     /**
      * Tests the TemplateURIGenerator subclass of the TemplateValueGenerator
      */
     @Test
-    public void TemplateURIGeneratorWithRowNumberProviderTest(){
+    public void TemplateURIGeneratorWithRowNumberProviderTest() {
         ValueProvider[] providers = new ValueProvider[1];
         RowNumberProvider rnp = new RowNumberProvider();
         providers[0] = rnp;
@@ -42,10 +43,11 @@ public class GeneratorTest {
     }
 
     /**
-     * Tests if the TemplateURIGenerator functions well with more than one given provider
+     * Tests if the TemplateURIGenerator functions well with more than one given
+     * provider
      */
     @Test
-    public void TemplateURIGeneratorWithMoreProvidersTest(){
+    public void TemplateURIGeneratorWithMoreProvidersTest() {
         ValueProvider[] providers = new ValueProvider[2];
         RowNumberProvider rnp = new RowNumberProvider();
         RowValueProvider rvp = new RowValueProvider(1);
@@ -65,7 +67,7 @@ public class GeneratorTest {
      * Tests the TemplateLiteralGenerator subclass of the TemplateValueGenerator
      */
     @Test
-    public void TemplateLiteralGeneratorTest(){
+    public void TemplateLiteralGeneratorTest() {
         URI uri = FACTORY.createURI("http://testuri.com");
         Literal literal = new LiteralImpl("testLabel", uri);
         String template = literal.getLabel();
@@ -76,23 +78,22 @@ public class GeneratorTest {
         TemplateLiteralGenerator tlg = new TemplateLiteralGenerator(literal, providers);
         Literal result = tlg.generate(rowIndex, array);
         Literal expectedLiteral;
-        if(literal.getDatatype() != null){
+        if (literal.getDatatype() != null) {
             expectedLiteral = FACTORY.createLiteral(expected, literal.getDatatype());
-        }
-        else if(literal.getLanguage().orElse(null) != null){
+        } else if (literal.getLanguage().orElse(null) != null) {
             expectedLiteral = FACTORY.createLiteral(expected, literal.getLanguage().orElse(null));
-        }
-        else{
+        } else {
             expectedLiteral = FACTORY.createLiteral(expected);
         }
         assertEquals(true, expectedLiteral.equals(result));
     }
 
     /**
-     * Tests the TemplateLiteralGenerator class, if it gets more provider and an URI with placeholders
+     * Tests the TemplateLiteralGenerator class, if it gets more provider and an URI
+     * with placeholders
      */
     @Test
-    public void TemplateLiteralGeneratorWithMoreProvidersTest(){
+    public void TemplateLiteralGeneratorWithMoreProvidersTest() {
         ValueProvider[] providers = new ValueProvider[2];
         RowNumberProvider rnp = new RowNumberProvider();
         RowValueProvider rvp = new RowValueProvider(1);
@@ -105,47 +106,41 @@ public class GeneratorTest {
         TemplateLiteralGenerator tlg = new TemplateLiteralGenerator(literal, providers);
         Literal result = tlg.generate(rowIndex, array);
         Literal expectedLiteral;
-        if(literal.getDatatype() != null){
+        if (literal.getDatatype() != null) {
             expectedLiteral = FACTORY.createLiteral(expected, literal.getDatatype());
-        }
-        else if(literal.getLanguage().orElse(null) != null){
+        } else if (literal.getLanguage().orElse(null) != null) {
             expectedLiteral = FACTORY.createLiteral(expected, literal.getLanguage().orElse(null));
-        }
-        else{
+        } else {
             expectedLiteral = FACTORY.createLiteral(expected);
         }
         assertEquals(true, expectedLiteral.equals(result));
     }
 
     /**
-     * Tests the ConstantValueGenerator class 
+     * Tests the ConstantValueGenerator class
      */
 
     @Test
-    public void ConstantValueGeneratorTest(){
+    public void ConstantValueGeneratorTest() {
         URI uri = FACTORY.createURI("http://1thishello1.com");
         ConstantValueGenerator constantValueGenerator = new ConstantValueGenerator<URI>(uri);
-        
-        final int rowIndex = -1;
-        final String[] rows = {"Not", "used", "by", "method", ":)"};
 
-        Value generatedUri = constantValueGenerator.generate(rowIndex, rows);
+        Value generatedUri = constantValueGenerator.generate(rowIndex, array);
 
         assertEquals(true, generatedUri.equals(uri));
     }
 
-
     /**
-     * Tests the BlankNodeGenerator generator method with same row index.
-     * The two node must be same.
+     * Tests the BlankNodeGenerator generator method with same row index. The two
+     * node must be same.
      */
     @Test
-    public void BNodeGeneratorOnSameRowTest(){
+    public void BNodeGeneratorOnSameRowTest() {
         BNodeGenerator bNodeGenerator = new BNodeGenerator();
 
         final int rowIndex = 1;
-        final String[] firstRows = {"First", "rows"};
-        final String[] secondRows = {"Second", "rows"};
+        final String[] firstRows = { "First", "rows" };
+        final String[] secondRows = { "Second", "rows" };
 
         BNode firstGeneratedNode = bNodeGenerator.generate(rowIndex, firstRows);
         BNode secondGeneratedNode = bNodeGenerator.generate(rowIndex, secondRows);
@@ -153,18 +148,18 @@ public class GeneratorTest {
         assertEquals(true, firstGeneratedNode.equals(secondGeneratedNode));
     }
 
-   /**
-     * Tests the BlankNodeGenerator generator method with same row index
-     * The two node must be different
+    /**
+     * Tests the BlankNodeGenerator generator method with same row index The two
+     * node must be different
      */
     @Test
-    public void BNodeGeneratorOnDifferentRowTest(){
+    public void BNodeGeneratorOnDifferentRowTest() {
         BNodeGenerator bNodeGenerator = new BNodeGenerator();
 
         final int firstRowIndex = 1;
         final int secondRowIndex = 2;
-        final String[] firstRows = {"First", "rows"};
-        final String[] secondRows = {"Second", "rows"};
+        final String[] firstRows = { "First", "rows" };
+        final String[] secondRows = { "Second", "rows" };
 
         BNode firstGeneratedNode = bNodeGenerator.generate(firstRowIndex, firstRows);
         BNode secondGeneratedNode = bNodeGenerator.generate(secondRowIndex, secondRows);
