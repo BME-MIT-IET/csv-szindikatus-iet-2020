@@ -14,8 +14,14 @@
               <url>https://mvnrepository.com/artifact</url>
         </repository>
     </repositories>
-
+      
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>5.3.2.RELEASE</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.airlift/airline -->
         <dependency>
@@ -89,6 +95,7 @@
         <sonar.projectKey>BME-MIT-IET_csv-szindikatus-iet-2020</sonar.projectKey>
         <sonar.organization>bme-mit-iet-org</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>bbafd678afd8291f207d28947fb12ac63290549b</sonar.login>
     </properties>
 
     <build>

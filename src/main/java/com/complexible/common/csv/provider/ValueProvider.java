@@ -1,26 +1,30 @@
 package com.complexible.common.csv.provider;
 
-import com.complexible.common.csv.CSV2RDF;
-import com.google.common.hash.HashCode;
-import com.google.common.hash.Hashing;
 import com.google.common.io.BaseEncoding;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.UUID;
 
-public abstract class ValueProvider {
 
+public abstract class ValueProvider {
 
     private final String placeholder = UUID.randomUUID().toString();
 
     private boolean hashed;
 
     public String provide(int rowIndex, String[] row) {
-         String value = provideValue(rowIndex, row);
-         if (value != null && hashed) {
-            HashCode hash = Hashing.sha1().hashString(value, CSV2RDF.OUTPUT_CHARSET);
-            value = BaseEncoding.base32Hex().omitPadding().lowerCase().encode(hash.asBytes());
-         }
-         return value;
+        String value = provideValue(rowIndex, row);
+        if (value != null && hashed) {
+            String hash = hash(value);
+            value = BaseEncoding.base32Hex().omitPadding().lowerCase().encode(hash.getBytes());
+        }
+        return value;
+    }
+
+    public String hash(String message) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(message);        
      }
 
      protected abstract String provideValue(int rowIndex, String[] row);
