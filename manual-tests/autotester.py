@@ -88,7 +88,6 @@ if __name__ == "__main__":
     
         assert success, "There were some test failures."
         print("All tests have passed.")
-        sys.exit("failure")
     except:
         sys.exit("failure")
 
