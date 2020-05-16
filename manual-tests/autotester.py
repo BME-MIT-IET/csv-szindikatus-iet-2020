@@ -58,33 +58,37 @@ class Autotester:
 
 if __name__ == "__main__":
 
-    import argparse # automatic cmd line argument parsing
-    import os # file manipulation
+    try:
+        import argparse # automatic cmd line argument parsing
+        import os # file manipulation
 
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument("--test-dir", "-t", type=str, help="Directory containing the test. Path must be relative to the test root.")
-    parser.add_argument("--test-root", "-r", type=str, help="Test root if different from where the script is being executed.")
-
-    args = parser.parse_args()
-
-    # access automatically parsed arguments
-    test_dir = args.test_dir
-    test_root = args.test_root or os.getcwd()
-
-    if not os.path.isabs(test_root):
-        test_root = os.path.join(os.getcwd(), test_root)
-
-    tester = Autotester(test_root)
-
-    if test_dir is not None:
-        success = tester.execute(test_dir)
-    else:
-        success = True
-        # os.walk is recursive, next prevents accessing subdirectories
-        _, directories, _ = next(os.walk(test_root))
-        for dir in directories:
-            success = success and tester.execute(dir)
-
-    assert success, "There were some test failures."
-    print("All tests have passed.")
+        parser = argparse.ArgumentParser(description='Process some integers.')
+        parser.add_argument("--test-dir", "-t", type=str, help="Directory containing the test. Path must be relative to the test root.")
+        parser.add_argument("--test-root", "-r", type=str, help="Test root if different from where the script is being executed.")
+    
+        args = parser.parse_args()
+    
+        # access automatically parsed arguments
+        test_dir = args.test_dir
+        test_root = args.test_root or os.getcwd()
+    
+        if not os.path.isabs(test_root):
+            test_root = os.path.join(os.getcwd(), test_root)
+    
+        tester = Autotester(test_root)
+    
+        if test_dir is not None:
+            success = tester.execute(test_dir)
+        else:
+            success = True
+            # os.walk is recursive, next prevents accessing subdirectories
+            _, directories, _ = next(os.walk(test_root))
+            for dir in directories:
+                success = success and tester.execute(dir)
+    
+        assert success, "There were some test failures."
+        print("All tests have passed.")
+        sys.exit("failure")
+    except:
+        sys.exit("failure")
 
