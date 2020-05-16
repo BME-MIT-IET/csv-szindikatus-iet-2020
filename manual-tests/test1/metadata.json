@@ -1,0 +1,8 @@
+{
+	"description": "Convert the 'cars' sample csv file.",
+	"files": {
+		"input": "in/input.csv",
+		"template": "in/template.ttl",
+		"output": "out/output.ttl"
+	}
+}
