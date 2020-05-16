@@ -14,8 +14,13 @@ args = parser.parse_args()
 expected_file=args.expected
 output_file=args.output
 
-match = filecmp.cmp(expected_file, output_file)
+import rdflib.compare
 
-#assert match, "Actual output doesn't match the expected output."
+expected_graph = rdflib.Graph().parse(expected_file, format="ttl")
+output_graph = rdflib.Graph().parse(output_file, format="ttl")
+
+match = rdflib.compare.isomorphic(expected_graph, output_graph)
+
+assert match, "Actual output doesn't match the expected output."
 
 print("success", end="")

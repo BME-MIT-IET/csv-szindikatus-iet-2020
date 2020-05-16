@@ -46,7 +46,7 @@ class Autotester:
                  print("Valiating test result.")
                  val_command = meta.validation.format(meta=meta)
                  with os.popen(val_command) as val_pipe:
-                     val_output = val_pipe.read()
+                     val_output = val_pipe.read().split('\n')[-1]
                 
                  assert val_output == "success", "Validation process did not return 'success'"
 
