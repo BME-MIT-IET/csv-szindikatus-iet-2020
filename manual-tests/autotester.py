@@ -57,11 +57,11 @@ class Autotester:
                  print(ex)
 
 if __name__ == "__main__":
-
+    import argparse # automatic cmd line argument parsing
+    import os # file manipulation
+    import sys
+    
     try:
-        import argparse # automatic cmd line argument parsing
-        import os # file manipulation
-
         parser = argparse.ArgumentParser(description='Process some integers.')
         parser.add_argument("--test-dir", "-t", type=str, help="Directory containing the test. Path must be relative to the test root.")
         parser.add_argument("--test-root", "-r", type=str, help="Test root if different from where the script is being executed.")
