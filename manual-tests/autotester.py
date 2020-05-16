@@ -1,23 +1,60 @@
-import json
+import json # json parsing
+from collections import namedtuple # used to convert parsed json dict to javascript-like OO json data structure
+import contextlib # easily create with-able methods
 
 class Autotester:
 
     def __init__(self, test_root):
         self.test_root = test_root
 
+    # execute command at a different directory than cwd (should be used as a with block)
+    @contextlib.contextmanager
+    def __execute_at(self, dir):
+        cwd = os.getcwd()
+        os.chdir(dir)
+        try:
+            yield
+        finally:
+            os.chdir(cwd)
+        
     def execute(self, test_dir):
         print(f"Executing test contained in directory {test_dir}")
         
         test_location = os.path.join(self.test_root, test_dir)
         
-        try:
-            with open(os.path.join(test_location, "metadata.json")) as meta_file:
-                meta = json.load(meta_file)
-                print("Test metadata:")
-                print(json.dumps(meta, indent=2))
+        with self.__execute_at(test_location):
+            metadata_location = os.path.join(test_location, "metadata.json")
+            if not os.path.exists(metadata_location):
+                print(f"Test directory {test_location} contains no 'metadata.json' file. Ignoring directory.")
+                return True
 
-        except:
-            print(f"Test directory {test_location} contains no 'metadata.json' file. Ignoring directory.")
+            try:
+                 with open(metadata_location) as meta_file:
+                     meta = json.load(meta_file, object_hook=lambda dict_: namedtuple('_', dict_.keys())(*dict_.values()))
+
+                 print("Test metadata:")
+                 print(json.dumps(meta, indent=2))
+
+                 for role in meta.files._fields:
+                     abspath = os.path.join(os.getcwd(), getattr(meta.files, role))
+                     meta = meta._replace(files=meta.files._replace(**{role: abspath}))
+
+                 print("Executing test script.")
+                 test_command = meta.script.format(meta=meta)
+                 os.system(test_command)
+
+                 print("Valiating test result.")
+                 val_command = meta.validation.format(meta=meta)
+                 with os.popen(val_command) as val_pipe:
+                     val_output = val_pipe.read()
+                
+                 assert val_output == "success", "Validation process did not return 'success'"
+
+                 return True
+
+            except Exception as ex:
+                 print(f"Test {test_location} failed, details:")
+                 print(ex)
 
 if __name__ == "__main__":
 
@@ -25,9 +62,7 @@ if __name__ == "__main__":
     import os # file manipulation
 
     parser = argparse.ArgumentParser(description='Process some integers.')
-
     parser.add_argument("--test-dir", "-t", type=str, help="Directory containing the test. Path must be relative to the test root.")
-
     parser.add_argument("--test-root", "-r", type=str, help="Test root if different from where the script is being executed.")
 
     args = parser.parse_args()
@@ -42,10 +77,14 @@ if __name__ == "__main__":
     tester = Autotester(test_root)
 
     if test_dir is not None:
-        tester.execute(test_dir)
+        success = tester.execute(test_dir)
     else:
+        success = True
         # os.walk is recursive, next prevents accessing subdirectories
         _, directories, _ = next(os.walk(test_root))
         for dir in directories:
-            tester.execute(dir)
+            success = success and tester.execute(dir)
+
+    assert success, "There were some test failures."
+    print("All tests have passed.")
 

@@ -1,8 +1,12 @@
 {
 	"description": "Convert the 'cars' sample csv file.",
+	"script": "mkdir out; java -jar ../../build/CSV2RDF.jar convert {meta.files.template} {meta.files.input} {meta.files.output}",
+	"validation": "python3 {meta.files.validation} {meta.files.expected} {meta.files.output}",
 	"files": {
-		"input": "in/input.csv",
+		"input": "in/in.csv",
 		"template": "in/template.ttl",
-		"output": "out/output.ttl"
+		"output": "out/out.ttl",
+		"expected": "expected/expected.ttl",
+		"validation": "validation.py"
 	}
 }

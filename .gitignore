@@ -9,3 +9,4 @@ target/*
 .classpath
 .settings/*
 out/**
+manual-tests/*/out/**
