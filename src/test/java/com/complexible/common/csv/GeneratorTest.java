@@ -5,24 +5,17 @@ import com.complexible.common.csv.generator.*;
 import com.complexible.common.csv.provider.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.openrdf.model.Value;
-import com.complexible.common.csv.CSV2RDF;
 import com.complexible.common.csv.provider.ValueProvider;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
 import org.openrdf.model.impl.LiteralImpl;
 
-import javax.xml.stream.FactoryConfigurationError;
-import java.math.BigInteger;
-
 public class GeneratorTest {
-
-    private int rowIndex = 1;
-    private String[] array = new String[] { "Hello", "this", "is", "a", "test" };
+    private final int rowIndex = 1;
+    private final String[] array = new String[] { "Hello", "this", "is", "a", "test" };
     private ValueFactory FACTORY = ValueFactoryImpl.getInstance();
 
     /**
@@ -31,14 +24,18 @@ public class GeneratorTest {
     @Test
     public void TemplateURIGeneratorWithRowNumberProviderTest() {
         ValueProvider[] providers = new ValueProvider[1];
-        RowNumberProvider rnp = new RowNumberProvider();
-        providers[0] = rnp;
-        String ph = rnp.getPlaceholder();
-        String template = "http://" + ph + "hello" + ph + ph + ".com";
-        TemplateURIGenerator tug = new TemplateURIGenerator(template, providers);
-        URI uri = tug.generate(rowIndex, array);
+        RowNumberProvider rowNumberProvider = new RowNumberProvider();
+        String placeHolder = rowNumberProvider.getPlaceholder();
+        String template = "http://" + placeHolder + "hello" + placeHolder + placeHolder + ".com";
+
+        providers[0] = rowNumberProvider;
+
+        TemplateURIGenerator templateURIGenerator = new TemplateURIGenerator(template, providers);
+        URI uri = templateURIGenerator.generate(rowIndex, array);
+
         String expectedString = "http://1hello11.com";
         URI expectedURI = FACTORY.createURI(expectedString);
+
         assertEquals(true, expectedURI.equals(uri));
     }
 
@@ -49,17 +46,22 @@ public class GeneratorTest {
     @Test
     public void TemplateURIGeneratorWithMoreProvidersTest() {
         ValueProvider[] providers = new ValueProvider[2];
-        RowNumberProvider rnp = new RowNumberProvider();
-        RowValueProvider rvp = new RowValueProvider(1);
-        providers[0] = rnp;
-        providers[1] = rvp;
-        String rnpPH = rnp.getPlaceholder();
-        String rvpPH = rvp.getPlaceholder();
-        String template = "http://" + rnpPH + rvpPH + "hello" + rnpPH + ".com";
+        RowNumberProvider rowNumberProvider = new RowNumberProvider();
+        RowValueProvider rowValueProvider = new RowValueProvider(1);
+        String rowNumberProviderPlaceholder = rowNumberProvider.getPlaceholder();
+        String rowValueProviderPlaceholder = rowValueProvider.getPlaceholder();
+
+        providers[0] = rowNumberProvider;
+        providers[1] = rowValueProvider;
+
+        String template = "http://" + rowNumberProviderPlaceholder + rowValueProviderPlaceholder + "hello"
+                + rowNumberProviderPlaceholder + ".com";
         String expectedString = "http://1thishello1.com";
-        TemplateURIGenerator tug = new TemplateURIGenerator(template, providers);
-        URI uri = tug.generate(rowIndex, array);
+
+        TemplateURIGenerator templateURIGenerator = new TemplateURIGenerator(template, providers);
+        URI uri = templateURIGenerator.generate(rowIndex, array);
         URI expectedURI = FACTORY.createURI(expectedString);
+
         assertEquals(true, expectedURI.equals(uri));
     }
 
@@ -72,12 +74,16 @@ public class GeneratorTest {
         Literal literal = new LiteralImpl("testLabel", uri);
         String template = literal.getLabel();
         ValueProvider[] providers = new ValueProvider[1];
-        RowNumberProvider rnp = new RowNumberProvider();
-        providers[0] = rnp;
-        String expected = template.replace(rnp.getPlaceholder(), "1");
-        TemplateLiteralGenerator tlg = new TemplateLiteralGenerator(literal, providers);
-        Literal result = tlg.generate(rowIndex, array);
+        RowNumberProvider rowNumberProvider = new RowNumberProvider();
+
+        providers[0] = rowNumberProvider;
+
+        String expected = template.replace(rowNumberProvider.getPlaceholder(), "1");
+        TemplateLiteralGenerator templateLiteralGenerator = new TemplateLiteralGenerator(literal, providers);
+
+        Literal result = templateLiteralGenerator.generate(rowIndex, array);
         Literal expectedLiteral;
+
         if (literal.getDatatype() != null) {
             expectedLiteral = FACTORY.createLiteral(expected, literal.getDatatype());
         } else if (literal.getLanguage().orElse(null) != null) {
@@ -85,6 +91,7 @@ public class GeneratorTest {
         } else {
             expectedLiteral = FACTORY.createLiteral(expected);
         }
+
         assertEquals(true, expectedLiteral.equals(result));
     }
 
@@ -95,17 +102,22 @@ public class GeneratorTest {
     @Test
     public void TemplateLiteralGeneratorWithMoreProvidersTest() {
         ValueProvider[] providers = new ValueProvider[2];
-        RowNumberProvider rnp = new RowNumberProvider();
-        RowValueProvider rvp = new RowValueProvider(1);
-        providers[0] = rnp;
-        providers[1] = rvp;
-        URI uri = FACTORY.createURI("http://testuri" + rnp.getPlaceholder() + rvp.getPlaceholder() + ".com");
+        RowNumberProvider rowNumberProvider = new RowNumberProvider();
+        RowValueProvider rowValueProvider = new RowValueProvider(1);
+
+        URI uri = FACTORY.createURI(
+                "http://testuri" + rowNumberProvider.getPlaceholder() + rowValueProvider.getPlaceholder() + ".com");
         Literal literal = new LiteralImpl("testLabel", uri);
         String template = literal.getLabel();
-        String expected = template.replace(rnp.getPlaceholder(), "1");
-        TemplateLiteralGenerator tlg = new TemplateLiteralGenerator(literal, providers);
-        Literal result = tlg.generate(rowIndex, array);
+        String expected = template.replace(rowNumberProvider.getPlaceholder(), "1");
+
+        providers[0] = rowNumberProvider;
+        providers[1] = rowValueProvider;
+
+        TemplateLiteralGenerator templateLiteralGenerator = new TemplateLiteralGenerator(literal, providers);
+        Literal result = templateLiteralGenerator.generate(rowIndex, array);
         Literal expectedLiteral;
+
         if (literal.getDatatype() != null) {
             expectedLiteral = FACTORY.createLiteral(expected, literal.getDatatype());
         } else if (literal.getLanguage().orElse(null) != null) {
@@ -113,6 +125,7 @@ public class GeneratorTest {
         } else {
             expectedLiteral = FACTORY.createLiteral(expected);
         }
+
         assertEquals(true, expectedLiteral.equals(result));
     }
 
@@ -124,42 +137,37 @@ public class GeneratorTest {
     public void ConstantValueGeneratorTest() {
         URI uri = FACTORY.createURI("http://1thishello1.com");
         ConstantValueGenerator constantValueGenerator = new ConstantValueGenerator<URI>(uri);
-
         Value generatedUri = constantValueGenerator.generate(rowIndex, array);
 
         assertEquals(true, generatedUri.equals(uri));
     }
 
     /**
-     * Tests the BlankNodeGenerator generator method with same row index. The two
-     * node must be same.
+     * Tests the BlankNodeGenerator generator method with same row index the two
+     * node must be same
      */
     @Test
     public void BNodeGeneratorOnSameRowTest() {
         BNodeGenerator bNodeGenerator = new BNodeGenerator();
+        final String[] rows = { "Second", "rows" };
 
-        final int rowIndex = 1;
-        final String[] firstRows = { "First", "rows" };
-        final String[] secondRows = { "Second", "rows" };
-
-        BNode firstGeneratedNode = bNodeGenerator.generate(rowIndex, firstRows);
-        BNode secondGeneratedNode = bNodeGenerator.generate(rowIndex, secondRows);
+        BNode firstGeneratedNode = bNodeGenerator.generate(rowIndex, array);
+        BNode secondGeneratedNode = bNodeGenerator.generate(rowIndex, rows);
 
         assertEquals(true, firstGeneratedNode.equals(secondGeneratedNode));
     }
 
     /**
-     * Tests the BlankNodeGenerator generator method with same row index The two
+     * Tests the BlankNodeGenerator generator method with same row index the two
      * node must be different
      */
     @Test
     public void BNodeGeneratorOnDifferentRowTest() {
         BNodeGenerator bNodeGenerator = new BNodeGenerator();
-
-        final int firstRowIndex = 1;
-        final int secondRowIndex = 2;
-        final String[] firstRows = { "First", "rows" };
-        final String[] secondRows = { "Second", "rows" };
+        int firstRowIndex = 1;
+        int secondRowIndex = 2;
+        String[] firstRows = { "First", "rows" };
+        String[] secondRows = { "Second", "rows" };
 
         BNode firstGeneratedNode = bNodeGenerator.generate(firstRowIndex, firstRows);
         BNode secondGeneratedNode = bNodeGenerator.generate(secondRowIndex, secondRows);
