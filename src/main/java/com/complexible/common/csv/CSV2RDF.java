@@ -119,19 +119,23 @@ public class CSV2RDF implements Runnable {
             }
 
             writer.endRDF();
+            processLogger.logInfo(String.format("Converted %,d rows to %,d triples%n", inputRows, outputTriples));
+
         }
         catch (IOException e) {
-            processLogger.logError("IOException occurred during run");
+            processLogger.logError("File was not found");
+        }
+        catch (NullPointerException e) {
+            processLogger.logError("File was empty");
         }
         catch(RDFHandlerException e)
         {
             processLogger.logError("RDFHandlerException occurred during run");
         }
-        catch(Exception e)
+      /*  catch(Exception e)
         {
             processLogger.logError("Exception occurred during run");
-        }
-        processLogger.logInfo(String.format("Converted %,d rows to %,d triples%n", inputRows, outputTriples));
+        }*/
 
     }
 
