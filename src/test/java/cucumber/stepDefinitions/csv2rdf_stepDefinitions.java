@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class csv2rdf_stepDefinitions {
 
@@ -167,8 +169,10 @@ public class csv2rdf_stepDefinitions {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(outputExpected.equals(output)){
-            result= true;
+        Pattern pattern = Pattern.compile(outputExpected);
+        Matcher matcher = pattern.matcher(output);
+        if(matcher.find()){
+            result=true;
         }
     }
 
