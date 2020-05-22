@@ -13,10 +13,6 @@ class Main {
             if(args==null){
                 throw new NullPointerException();
             }
-            Preconditions.checkNotNull(args);
-            Preconditions.checkNotNull(args[0]);
-            Preconditions.checkNotNull(args[1]);
-            Preconditions.checkNotNull(args[2]);
             Preconditions.checkArgument(args[0].endsWith(".ttl"));
             Preconditions.checkArgument(args[1].endsWith(".csv"));
             Preconditions.checkArgument(args[2].endsWith(".ttl"));           
