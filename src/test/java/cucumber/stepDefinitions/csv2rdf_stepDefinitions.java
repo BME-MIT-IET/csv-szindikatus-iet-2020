@@ -4,16 +4,11 @@ import com.complexible.common.csv.CSV2RDF;
 import com.complexible.common.csv.generator.BNodeGenerator;
 import com.complexible.common.csv.generator.TemplateLiteralGenerator;
 import com.complexible.common.csv.logger.ProcessBehaviourLogger;
-import com.complexible.common.csv.provider.RowNumberProvider;
-import com.complexible.common.csv.provider.RowValueProvider;
-import com.complexible.common.csv.provider.ValueProvider;
 import io.airlift.command.Cli;
 import io.airlift.command.Help;
 import io.cucumber.java.en.*;
-import org.apache.velocity.Template;
 import org.junit.jupiter.api.Assertions;
 import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -65,7 +65,6 @@ public class CSV2RDF implements Runnable {
 
 
     public static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
-    public static final ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
 
     @Option(name = "--no-header", arity = 0, description = "If csv file does not contain a header row")
     private static final boolean NOHEADER = false;
@@ -93,10 +92,10 @@ public class CSV2RDF implements Runnable {
         final File templateFile = new File(files.get(0));
         final File inputFile = new File(files.get(1));
         final File outputFile =  new File(files.get(2));
-        processLogger.logInfo("CSV to RDF conversion started...");
-        processLogger.logInfo("Template: " + templateFile);
-        processLogger.logInfo("Input   : " + inputFile);
-        processLogger.logInfo("Output  : " + outputFile);
+        ProcessBehaviourLogger.logInfo("CSV to RDF conversion started...");
+        ProcessBehaviourLogger.logInfo("Template: " + templateFile);
+        ProcessBehaviourLogger.logInfo("Input   : " + inputFile);
+        ProcessBehaviourLogger.logInfo("Output  : " + outputFile);
         
         try (Reader in = Files.newReader(inputFile, INPUT_CHARSET);
              CSVReader reader = new CSVReader(in, toChar(separator), toChar(quote), toChar(escape));
@@ -119,18 +118,18 @@ public class CSV2RDF implements Runnable {
             }
 
             writer.endRDF();
-            processLogger.logInfo(String.format("Converted %,d rows to %,d triples%n", inputRows, outputTriples));
+            ProcessBehaviourLogger.logInfo(String.format("Converted %,d rows to %,d triples%n", inputRows, outputTriples));
 
         }
         catch (IOException e) {
-            processLogger.logError("File was not found");
+            ProcessBehaviourLogger.logError("File was not found");
         }
         catch (NullPointerException e) {
-            processLogger.logError("File was empty");
+            ProcessBehaviourLogger.logError("File was empty");
         }
         catch(final RDFHandlerException e)
         {
-            processLogger.logError("RDFHandlerException occurred during run");
+            ProcessBehaviourLogger.logError("RDFHandlerException occurred during run");
         }
     }
 
