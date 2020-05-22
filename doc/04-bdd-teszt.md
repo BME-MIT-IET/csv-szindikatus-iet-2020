@@ -1,0 +1,8 @@
+# BDD Teszt
+A BDD Teszteket a Cucumber segítségével készítettük el, először megtanultuk, hogyan kell használni a Cucumber-t, azután pedig elkészítettük a feature fájlban a szabályok definícióit és a StepDefinition fájlban pedig a szabályok implementációit készítettük el a testRunner pedig összeköti a feature fájlt és a StepDefinition fájlt.
+
+* Először azt teszteltük le hogy a konverzió sikeresen le tud-e futni. Ebben az esetben a logokból kiolvassuk, hogy a fájl sikeresen lekonvertálódott
+* Azután megnéztük, hogy üres input fájlok bevitele esetén hogyan fut le a program. Ilyenkor a logokból visszaolvasva nézi meg a program, hogy a konverzió során érkezett-e valamilyen kivétel. Ha a logok között azt találjuk hogy "File was empty" akkor tudjuk, hogy üres fájlt akart a felhasználó konvertálni.
+* Továbbá a BNodeGenerator helyes lefutását vizsgáltuk meg. Amennyiben a generáció végén a value értéke továbbra is nulla, akkor tudjuk hogy a generátor nem tudott értéket adni a változónak így tudjuk, hogy a generálás nem valósult meg. Ha értéke van, akkor tudjuk hogy a generáció sikeresen lefutott.
+* Ezek után azt vizsgáltuk meg, hogy hogyan reagál a program arra, hogyha a bemenetben megadott fájlok nem elérhetőek. Amennyiben futás közben kap egy IOExceptiont, akkor a logokat visszanézve állapítja meg hogy mi volt az oka a konverzió kudarcának.
+* Azt is meg kellett vizsgálni, hogy a végeredmény fájl korrekt-e, ehhez készítettünk a példa dokumentumokhoz egy elvárt output dokumentumot is, amelyet egy regex-ként felhasználva vetettük össze a két dokumentumot

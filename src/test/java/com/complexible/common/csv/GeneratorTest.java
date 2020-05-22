@@ -136,7 +136,7 @@ public class GeneratorTest {
     @Test
     public void ConstantValueGeneratorTest() {
         URI uri = FACTORY.createURI("http://1thishello1.com");
-        ConstantValueGenerator constantValueGenerator = new ConstantValueGenerator<URI>(uri);
+        ConstantValueGenerator<URI> constantValueGenerator = new ConstantValueGenerator<URI>(uri);
         Value generatedUri = constantValueGenerator.generate(rowIndex, array);
 
         assertEquals(true, generatedUri.equals(uri));

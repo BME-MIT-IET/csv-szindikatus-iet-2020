@@ -1,5 +1,6 @@
 package com.complexible.common.csv;
 
+import com.complexible.common.csv.logger.ProcessBehaviourLogger;
 import com.google.common.base.Preconditions;
 
 import io.airlift.command.Cli;
@@ -25,14 +26,12 @@ class Main {
                             .build().parse(args).run();
         }
         catch (IllegalArgumentException e){
-            CSV2RDF.processLogger.logError("Wrong input! Make sure the first file is a template with format .ttl, the second is the RDF-to-be .csv, the last is a .ttl\nERROR: "+(e.getMessage()));
+            ProcessBehaviourLogger.logError("Wrong input! Make sure the first file is a template with format .ttl, the second is the RDF-to-be .csv, the last is a .ttl\nERROR: "+(e.getMessage()));
         }
         catch (NullPointerException e){
-            CSV2RDF.processLogger.logError("Wrong input! Make sure to give 3 files in input\nERROR: "+(e.getMessage()));
+            ProcessBehaviourLogger.logError("Wrong input! Make sure to give 3 files in input\nERROR: " + (e.getMessage()));
         }
         catch (Exception e) {
-            CSV2RDF.processLogger.logError("ERROR: "+(e.getMessage()));
-
+            ProcessBehaviourLogger.logError("ERROR: "+(e.getMessage())); }
         }
-    }
 }
