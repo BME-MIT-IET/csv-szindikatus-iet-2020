@@ -23,9 +23,9 @@
 	rdfs:comment "ac, abs, moon" ;
 	gr:includes :Car-1 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx1 .
+	gr:hasPriceSpecification _:node1e92i012tx1 .
 
-_:node1e92go7vkx1 a gr:UnitPriceSpecification ;
+_:node1e92i012tx1 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "3000.00"^^xsd:float .
 
@@ -46,9 +46,9 @@ _:node1e92go7vkx1 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-2 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx2 .
+	gr:hasPriceSpecification _:node1e92i012tx2 .
 
-_:node1e92go7vkx2 a gr:UnitPriceSpecification ;
+_:node1e92i012tx2 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4900.00"^^xsd:float .
 
@@ -69,9 +69,9 @@ _:node1e92go7vkx2 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-3 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx3 .
+	gr:hasPriceSpecification _:node1e92i012tx3 .
 
-_:node1e92go7vkx3 a gr:UnitPriceSpecification ;
+_:node1e92i012tx3 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "5000.00"^^xsd:float .
 
@@ -93,9 +93,9 @@ _:node1e92go7vkx3 a gr:UnitPriceSpecification ;
 air, moon roof, loaded""" ;
 	gr:includes :Car-4 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx4 .
+	gr:hasPriceSpecification _:node1e92i012tx4 .
 
-_:node1e92go7vkx4 a gr:UnitPriceSpecification ;
+_:node1e92i012tx4 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4799.00"^^xsd:float .
 
@@ -116,9 +116,9 @@ _:node1e92go7vkx4 a gr:UnitPriceSpecification ;
 	rdfs:comment "ac, abs, moon" ;
 	gr:includes :Car-1 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx5 .
+	gr:hasPriceSpecification _:node1e92i012tx5 .
 
-_:node1e92go7vkx5 a gr:UnitPriceSpecification ;
+_:node1e92i012tx5 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "3000.00"^^xsd:float .
 
@@ -139,9 +139,9 @@ _:node1e92go7vkx5 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-2 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx6 .
+	gr:hasPriceSpecification _:node1e92i012tx6 .
 
-_:node1e92go7vkx6 a gr:UnitPriceSpecification ;
+_:node1e92i012tx6 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4900.00"^^xsd:float .
 
@@ -162,9 +162,9 @@ _:node1e92go7vkx6 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-3 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx7 .
+	gr:hasPriceSpecification _:node1e92i012tx7 .
 
-_:node1e92go7vkx7 a gr:UnitPriceSpecification ;
+_:node1e92i012tx7 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "5000.00"^^xsd:float .
 
@@ -186,9 +186,9 @@ _:node1e92go7vkx7 a gr:UnitPriceSpecification ;
 air, moon roof, loaded""" ;
 	gr:includes :Car-4 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx8 .
+	gr:hasPriceSpecification _:node1e92i012tx8 .
 
-_:node1e92go7vkx8 a gr:UnitPriceSpecification ;
+_:node1e92i012tx8 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4799.00"^^xsd:float .
 
@@ -209,9 +209,9 @@ _:node1e92go7vkx8 a gr:UnitPriceSpecification ;
 	rdfs:comment "ac, abs, moon" ;
 	gr:includes :Car-1 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx9 .
+	gr:hasPriceSpecification _:node1e92i012tx9 .
 
-_:node1e92go7vkx9 a gr:UnitPriceSpecification ;
+_:node1e92i012tx9 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "3000.00"^^xsd:float .
 
@@ -232,9 +232,9 @@ _:node1e92go7vkx9 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-2 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx10 .
+	gr:hasPriceSpecification _:node1e92i012tx10 .
 
-_:node1e92go7vkx10 a gr:UnitPriceSpecification ;
+_:node1e92i012tx10 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4900.00"^^xsd:float .
 
@@ -255,9 +255,9 @@ _:node1e92go7vkx10 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-3 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx11 .
+	gr:hasPriceSpecification _:node1e92i012tx11 .
 
-_:node1e92go7vkx11 a gr:UnitPriceSpecification ;
+_:node1e92i012tx11 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "5000.00"^^xsd:float .
 
@@ -279,9 +279,9 @@ _:node1e92go7vkx11 a gr:UnitPriceSpecification ;
 air, moon roof, loaded""" ;
 	gr:includes :Car-4 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx12 .
+	gr:hasPriceSpecification _:node1e92i012tx12 .
 
-_:node1e92go7vkx12 a gr:UnitPriceSpecification ;
+_:node1e92i012tx12 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4799.00"^^xsd:float .
 
@@ -302,9 +302,9 @@ _:node1e92go7vkx12 a gr:UnitPriceSpecification ;
 	rdfs:comment "ac, abs, moon" ;
 	gr:includes :Car-1 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx13 .
+	gr:hasPriceSpecification _:node1e92i012tx13 .
 
-_:node1e92go7vkx13 a gr:UnitPriceSpecification ;
+_:node1e92i012tx13 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "3000.00"^^xsd:float .
 
@@ -325,9 +325,9 @@ _:node1e92go7vkx13 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-2 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx14 .
+	gr:hasPriceSpecification _:node1e92i012tx14 .
 
-_:node1e92go7vkx14 a gr:UnitPriceSpecification ;
+_:node1e92i012tx14 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4900.00"^^xsd:float .
 
@@ -348,9 +348,9 @@ _:node1e92go7vkx14 a gr:UnitPriceSpecification ;
 	rdfs:comment "eb2ac4eb-4029-4f58-9318-c6109008ca7c" ;
 	gr:includes :Car-3 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx15 .
+	gr:hasPriceSpecification _:node1e92i012tx15 .
 
-_:node1e92go7vkx15 a gr:UnitPriceSpecification ;
+_:node1e92i012tx15 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "5000.00"^^xsd:float .
 
@@ -372,8 +372,8 @@ _:node1e92go7vkx15 a gr:UnitPriceSpecification ;
 air, moon roof, loaded""" ;
 	gr:includes :Car-4 ;
 	gr:hasBusinessFunction gr:Sell ;
-	gr:hasPriceSpecification _:node1e92go7vkx16 .
+	gr:hasPriceSpecification _:node1e92i012tx16 .
 
-_:node1e92go7vkx16 a gr:UnitPriceSpecification ;
+_:node1e92i012tx16 a gr:UnitPriceSpecification ;
 	gr:hasCurrency "USD" ;
 	gr:hasCurrencyValue "4799.00"^^xsd:float .

@@ -10,7 +10,7 @@ class Main {
         public static void main(String[] args) {
 
             if (args.length < 1) {
-                ProcessBehaviourLogger.logInfo("Usage: java -jar CSV2RDF, convert <template.ttl> <input.csv> <output.ttl>");
+                ProcessBehaviourLogger.logInfo("Usage: java -jar CSV2RDF.jar convert <template.ttl> <input.csv> <output.ttl>");
                 return;
             }
 

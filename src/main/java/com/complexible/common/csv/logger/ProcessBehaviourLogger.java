@@ -12,7 +12,7 @@ public class ProcessBehaviourLogger {
     }
     public static void logError(String message)
     {
-        processLogger.log(Level.WARNING,message);
+        processLogger.log(Level.SEVERE,message);
     }
     public static void addHandler(Handler handler){
         processLogger.addHandler(handler);

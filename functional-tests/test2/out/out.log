@@ -1,2 +1,2 @@
-May 24, 2020 6:58:43 AM com.complexible.common.csv.logger.ProcessBehaviourLogger logInfo
+May 24, 2020 7:20:26 AM com.complexible.common.csv.logger.ProcessBehaviourLogger logInfo
 INFO: Usage: java -jar CSV2RDF.jar convert <template.ttl> <input.csv> <output.ttl>
