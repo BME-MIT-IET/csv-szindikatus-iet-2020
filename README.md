@@ -14,8 +14,5 @@ See [examples/cars](examples/cars) for details.
 
 ### Running
 
-List **available commands**:<br>
-`java -jar build/CSV2RDF.jar help convert`
-
 **Run conversion** (assuming a directory named out has been created):<br>
 `java -jar build/CSV2RDF.jar convert examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`
