@@ -17,6 +17,7 @@ See [examples/cars](examples/cars) for details.
 **Run conversion** (assuming a directory named out has been created):<br>
 `java -jar convert build/CSV2RDF.jar examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`
 
-**Run conversion using docker image**
-The following command can be executed from the root directory of the repository:
-sudo docker run -v `pwd`/examples/cars:/input -v `pwd`/out:/output tamasbrndz/csv-indikatus java -jar /app/build/CSV2RDF.jar convert /input/template.ttl /input/cars.csv /output/cars.ttl
+**Run conversion using docker image**<br>
+The following command can be executed from the root directory of the repository (might require root):<br>
+``docker run -v `pwd`/examples/cars:/input -v `pwd`/out:/output tamasbrndz/csv-indikatus java -jar /app/build/CSV2RDF.jar convert /input/template.ttl /input/cars.csv /output/cars.ttl``
+
