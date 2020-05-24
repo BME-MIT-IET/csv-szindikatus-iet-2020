@@ -1,6 +1,3 @@
-import filecmp
-import sys
-import json
 import argparse
 
 parser = argparse.ArgumentParser(description='Process some integers.')

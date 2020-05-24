@@ -1,7 +1,5 @@
-import filecmp
-import sys
-import json
 import argparse
+import rdflib.compare
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 
@@ -13,8 +11,6 @@ args = parser.parse_args()
 # access automatically parsed arguments
 expected_file=args.expected
 output_file=args.output
-
-import rdflib.compare
 
 expected_graph = rdflib.Graph().parse(expected_file, format="ttl")
 output_graph = rdflib.Graph().parse(output_file, format="ttl")
