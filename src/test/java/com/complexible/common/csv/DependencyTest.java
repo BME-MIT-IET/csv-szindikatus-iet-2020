@@ -50,9 +50,8 @@ public class DependencyTest {
 
         RDFFormat format = RDFFormat.TURTLE;
         RDFWriter writer = Rio.createWriter(RDFFormat.TURTLE, System.out);
-
         /* test passes if no exceptions were thrown */
-
+        
     }
 
     /**

@@ -65,10 +65,9 @@ public class CSV2RDF implements Runnable {
 
 
     public static final ValueFactory FACTORY = ValueFactoryImpl.getInstance();
-    public static final ProcessBehaviourLogger processLogger = new ProcessBehaviourLogger();
 
     @Option(name = "--no-header", arity = 0, description = "If csv file does not contain a header row")
-    private final boolean noHeader = false;
+    private static final boolean NOHEADER = false;
 
     @Option(name = { "-s", "--separator" }, description = "Separator character used in the csv file or ',' by default.")
     private final String separator = String.valueOf(CSVParser.DEFAULT_SEPARATOR);
@@ -90,13 +89,13 @@ public class CSV2RDF implements Runnable {
         Preconditions.checkArgument(files.size() >= 3, "Missing arguments");
         Preconditions.checkArgument(files.size() <= 3, "Too many arguments");
 
-        File templateFile = new File(files.get(0));
-        File inputFile = new File(files.get(1));
-        File outputFile =  new File(files.get(2));
-        processLogger.logInfo("CSV to RDF conversion started...");
-        processLogger.logInfo("Template: " + templateFile);
-        processLogger.logInfo("Input   : " + inputFile);
-        processLogger.logInfo("Output  : " + outputFile);
+        final File templateFile = new File(files.get(0));
+        final File inputFile = new File(files.get(1));
+        final File outputFile =  new File(files.get(2));
+        ProcessBehaviourLogger.logInfo("CSV to RDF conversion started...");
+        ProcessBehaviourLogger.logInfo("Template: " + templateFile);
+        ProcessBehaviourLogger.logInfo("Input   : " + inputFile);
+        ProcessBehaviourLogger.logInfo("Output  : " + outputFile);
         
         try (Reader in = Files.newReader(inputFile, INPUT_CHARSET);
              CSVReader reader = new CSVReader(in, toChar(separator), toChar(quote), toChar(escape));
@@ -105,12 +104,12 @@ public class CSV2RDF implements Runnable {
 
             Preconditions.checkNotNull(row, "Input file is empty!");
 
-            RDFFormat format = Rio.getParserFormatForFileName(outputFile.getName()).orElse(RDFFormat.TURTLE);
-            RDFWriter writer = Rio.createWriter(format, out);
+            final RDFFormat format = Rio.getParserFormatForFileName(outputFile.getName()).orElse(RDFFormat.TURTLE);
+            final RDFWriter writer = Rio.createWriter(format, out);
 
-            Template template = new Template(Arrays.asList(row), templateFile, writer);
+            final Template template = new Template(Arrays.asList(row), templateFile, writer);
 
-            if (noHeader) {
+            if (NOHEADER) {
                 template.generate(row, writer);
             }
 
@@ -119,61 +118,43 @@ public class CSV2RDF implements Runnable {
             }
 
             writer.endRDF();
+            ProcessBehaviourLogger.logInfo(String.format("Converted %,d rows to %,d triples%n", inputRows, outputTriples));
+
         }
         catch (IOException e) {
-            processLogger.logError("IOException occurred during run");
+            ProcessBehaviourLogger.logError("File was not found");
         }
-        catch(RDFHandlerException e)
+        catch (NullPointerException e) {
+            ProcessBehaviourLogger.logError("File was empty");
+        }
+        catch(final RDFHandlerException e)
         {
-            processLogger.logError("RDFHandlerException occurred during run");
+            ProcessBehaviourLogger.logError("RDFHandlerException occurred during run");
         }
-        catch(Exception e)
-        {
-            processLogger.logError("Exception occurred during run");
-        }
-        processLogger.logInfo(String.format("Converted %,d rows to %,d triples%n", inputRows, outputTriples));
-
     }
 
-    private static char toChar(String value) {
+    private static char toChar(final String value) {
         Preconditions.checkArgument(value.length() == 1, "Expecting a single character but got %s", value);
         return value.charAt(0);
-    }
-
-    private static ParserConfig getParserConfig() {
-        ParserConfig config = new ParserConfig();
-
-        Set<RioSetting<?>> aNonFatalErrors = Sets.newHashSet(
-                        BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, BasicParserSettings.FAIL_ON_UNKNOWN_LANGUAGES);
-
-        config.setNonFatalErrors(aNonFatalErrors);
-
-        config.set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, false);
-        config.set(BasicParserSettings.FAIL_ON_UNKNOWN_LANGUAGES, false);
-        config.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, false);
-        config.set(BasicParserSettings.VERIFY_LANGUAGE_TAGS, false);
-        config.set(BasicParserSettings.VERIFY_RELATIVE_URIS, false);
-
-        return config;
     }
 
     private class Template {
         private final List<StatementGenerator> stmts = Lists.newArrayList();
         private final List<ValueProvider> valueProviders = Lists.newArrayList();
 
-        Template(List<String> cols, File templateFile, RDFWriter writer) throws IOException {
+        Template(final List<String> cols, final File templateFile, final RDFWriter writer) throws IOException {
             parseTemplate(cols, templateFile, writer);
         }
 
-        private String insertPlaceholders(List<String> cols, File templateFile) throws IOException {
-            Pattern p = Pattern.compile("([\\$|\\#]\\{[^}]*\\})");
+        private String insertPlaceholders(final List<String> cols, final File templateFile) throws IOException {
+            final Pattern p = Pattern.compile("([\\$|\\#]\\{[^}]*\\})");
 
-            Matcher m = p.matcher(Files.toString(templateFile, INPUT_CHARSET));
-            StringBuffer sb = new StringBuffer();
+            final Matcher m = p.matcher(Files.toString(templateFile, INPUT_CHARSET));
+            final StringBuffer sb = new StringBuffer();
             while (m.find()) {
-                String var = m.group(1);
-                String varName = var.substring(2, var.length() - 1);
-                ValueProvider valueProvider = valueProviderFor(varName, cols);
+                final String var = m.group(1);
+                final String varName = var.substring(2, var.length() - 1);
+                final ValueProvider valueProvider = valueProviderFor(varName, cols);
                 Preconditions.checkArgument(valueProvider != null, "Invalid template variable", var);
                 valueProvider.setHashed((var.charAt(0) == '#'));
                 m.appendReplacement(sb, valueProvider.getPlaceholder());
@@ -183,8 +164,24 @@ public class CSV2RDF implements Runnable {
 
             return sb.toString();
         }
+        private ParserConfig getParserConfig() {
+            final ParserConfig config = new ParserConfig();
+    
+            final Set<RioSetting<?>> aNonFatalErrors = Sets.newHashSet(
+                            BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, BasicParserSettings.FAIL_ON_UNKNOWN_LANGUAGES);
+    
+            config.setNonFatalErrors(aNonFatalErrors);
+    
+            config.set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, false);
+            config.set(BasicParserSettings.FAIL_ON_UNKNOWN_LANGUAGES, false);
+            config.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, false);
+            config.set(BasicParserSettings.VERIFY_LANGUAGE_TAGS, false);
+            config.set(BasicParserSettings.VERIFY_RELATIVE_URIS, false);
+    
+            return config;
+        }
 
-        private ValueProvider valueProviderFor(String varName, List<String> cols) {
+        private ValueProvider valueProviderFor(final String varName, final List<String> cols) {
             if (varName.equalsIgnoreCase("_ROW_")) {
                 return new RowNumberProvider();
             }
@@ -193,16 +190,16 @@ public class CSV2RDF implements Runnable {
             }
             
             int index = -1;            
-            if (!noHeader) {
+            if (!NOHEADER) {
                 index = cols.indexOf(varName);
             }
             else {
                 try {
                     index = Integer.parseInt(varName);
                 }
-                catch (NumberFormatException e) {
+                catch (final NumberFormatException e) {
                     if (varName.length() == 1) {
-                        char c = Character.toUpperCase(varName.charAt(0));
+                        final char c = Character.toUpperCase(varName.charAt(0));
                         if (c >= 'A' && c <= 'Z') {
                             index = c - 'A';
                         }
@@ -212,11 +209,11 @@ public class CSV2RDF implements Runnable {
             return index == -1 ? null : new RowValueProvider(index);
         }
 
-        private void parseTemplate(List<String> cols, File templateFile, final RDFWriter writer) throws IOException {
-            String templateStr = insertPlaceholders(cols, templateFile);
+        private void parseTemplate(final List<String> cols, final File templateFile, final RDFWriter writer) throws IOException {
+            final String templateStr = insertPlaceholders(cols, templateFile);
 
-            RDFFormat format = Rio.getParserFormatForFileName(templateFile.getName()).orElse(RDFFormat.TURTLE);
-            RDFParser parser = Rio.createParser(format);
+            final RDFFormat format = Rio.getParserFormatForFileName(templateFile.getName()).orElse(RDFFormat.TURTLE);
+            final RDFParser parser = Rio.createParser(format);
 
             parser.setParserConfig(getParserConfig());
             parser.setRDFHandler(new RDFHandlerBase() {
@@ -229,20 +226,20 @@ public class CSV2RDF implements Runnable {
                 }
 
                 @Override
-                public void handleNamespace(String prefix, String uri) {
+                public void handleNamespace(final String prefix, final String uri) {
                     writer.handleNamespace(prefix, uri);
                 }
 
                 @Override
-                public void handleStatement(Statement st) {
-                    ValueGenerator<Resource> subject = generatorFor(st.getSubject());
-                    ValueGenerator<URI> predicate = generatorFor(st.getPredicate());
-                    ValueGenerator<Value> object = generatorFor(st.getObject());
+                public void handleStatement(final Statement st) {
+                    final ValueGenerator<Resource> subject = generatorFor(st.getSubject());
+                    final ValueGenerator<URI> predicate = generatorFor(st.getPredicate());
+                    final ValueGenerator<Value> object = generatorFor(st.getObject());
                     stmts.add(new StatementGenerator(subject, predicate, object));
                 }
 
                 @SuppressWarnings({ "unchecked"})
-                private <V extends Value> ValueGenerator<V> generatorFor(V value) {
+                private <V extends Value> ValueGenerator<V> generatorFor(final V value) {
                     ValueGenerator<V> generator = generators.get(value);
                     if (generator != null) {
                         return generator;
@@ -251,16 +248,16 @@ public class CSV2RDF implements Runnable {
                         generator = (ValueGenerator<V>) new BNodeGenerator();
                     }
                     else {
-                        String str = value.toString();
-                        ValueProvider[] providers = providersFor(str);
+                        final String str = value.toString();
+                        final ValueProvider[] providers = providersFor(str);
                         if (providers.length == 0) {
-                            generator = new ConstantValueGenerator(value);
+                            generator = new ConstantValueGenerator<>(value);
                         }
                         else if (value instanceof URI) {
                             generator = (ValueGenerator<V>) new TemplateURIGenerator(str, providers);
                         }
                         else {
-                            Literal literal = (Literal) value;
+                            final Literal literal = (Literal) value;
                             generator = (ValueGenerator<V>) new TemplateLiteralGenerator(literal, providers);
                         }
                     }
@@ -268,9 +265,9 @@ public class CSV2RDF implements Runnable {
                     return generator;
                 }
 
-                private ValueProvider[] providersFor(String str) {
-                    List<ValueProvider> result = Lists.newArrayList();
-                    for (ValueProvider provider : valueProviders) {
+                private ValueProvider[] providersFor(final String str) {
+                    final List<ValueProvider> result = Lists.newArrayList();
+                    for (final ValueProvider provider : valueProviders) {
                         if (str.contains(provider.getPlaceholder())) {
                             result.add(provider);
                         }  
@@ -282,9 +279,9 @@ public class CSV2RDF implements Runnable {
             parser.parse(new StringReader(templateStr), "urn:");
         }
 
-        void generate(String[] row, RDFHandler handler) {
+        void generate(final String[] row, final RDFHandler handler) {
             inputRows++;
-            for (StatementGenerator stmt : stmts) {
+            for (final StatementGenerator stmt : stmts) {
                 outputTriples++;
                 handler.handleStatement(stmt.generate(inputRows, row));
             }

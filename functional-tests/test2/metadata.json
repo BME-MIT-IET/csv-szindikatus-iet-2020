@@ -1,0 +1,10 @@
+{
+	"description": "Test help message when running with no arguments.",
+	"script": "rm -r out; mkdir out; java -jar ../../build/CSV2RDF.jar 2> out/out.log",
+	"validation": "python3 {meta.files.validation} {meta.files.expected} {meta.files.output}",
+	"files": {
+		"output": "out/out.log",
+		"expected": "expected/expected.log",
+		"validation": "validation.py"
+	}
+}

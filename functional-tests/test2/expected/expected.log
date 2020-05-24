@@ -1,0 +1,3 @@
+<timestamp> com.complexible.common.csv.logger.ProcessBehaviourLogger logInfo
+INFO: Usage: java -jar CSV2RDF.jar convert <template.ttl> <input.csv> <output.ttl>
+
