@@ -22,5 +22,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Automatically run all functional tests
-      run: python3 functional-tests/autotester.py -r "manual-tests"
+      run: python3 functional-tests/autotester.py -r "functional-tests"
 
