@@ -15,4 +15,4 @@ See [examples/cars](examples/cars) for details.
 ### Running
 
 **Run conversion** (assuming a directory named out has been created):<br>
-`java -jar build/CSV2RDF.jar convert examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`
+`java -jar build/CSV2RDF.jar examples/cars/template.ttl examples/cars/cars.csv out/cars.ttl`
