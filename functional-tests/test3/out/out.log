@@ -1,0 +1,2 @@
+May 24, 2020 6:58:43 AM com.complexible.common.csv.logger.ProcessBehaviourLogger logError
+SEVERE: Invalid parameters. Make sure the first file is a template with format .ttl, the input file is a .csv, the output file is a '.ttl'.

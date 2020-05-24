@@ -1,0 +1,2 @@
+<timestamp> com.complexible.common.csv.logger.ProcessBehaviourLogger logInfo
+SEVERE: Invalid parameters. Make sure the first file is a template with format .ttl, the input file is a .csv, the output file is a '.ttl'.

@@ -1,6 +1,6 @@
 {
 	"description": "Convert the 'cars' sample csv file.",
-	"script": "rm -rf out; mkdir out; java -jar ../../build/CSV2RDF.jar convert {meta.files.template} {meta.files.input} {meta.files.output}",
+	"script": "rm -r out; mkdir out; java -jar ../../build/CSV2RDF.jar convert {meta.files.template} {meta.files.input} {meta.files.output}",
 	"validation": "python3 {meta.files.validation} {meta.files.expected} {meta.files.output}",
 	"files": {
 		"input": "in/in.csv",

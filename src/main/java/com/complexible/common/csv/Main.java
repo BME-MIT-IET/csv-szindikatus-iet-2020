@@ -1,7 +1,6 @@
 package com.complexible.common.csv;
 
 import com.complexible.common.csv.logger.ProcessBehaviourLogger;
-import com.google.common.base.Preconditions;
 
 import io.airlift.command.Cli;
 import io.airlift.command.Help;
@@ -9,25 +8,24 @@ import io.airlift.command.Help;
 class Main {
     
         public static void main(String[] args) {
-        try { 
-            if(args==null){
-                throw new NullPointerException();
+
+            if (args.length < 1) {
+                ProcessBehaviourLogger.logInfo("Usage: java -jar CSV2RDF, convert <template.ttl> <input.csv> <output.ttl>");
+                return;
             }
-            Preconditions.checkArgument(args[0].endsWith(".ttl"));
-            Preconditions.checkArgument(args[1].endsWith(".csv"));
-            Preconditions.checkArgument(args[2].endsWith(".ttl"));           
-        
-            Cli.<Runnable> builder("csv2rdf").withDescription("Converts a CSV file to RDF based on a given template")
-                            .withDefaultCommand(CSV2RDF.class).withCommand(CSV2RDF.class).withCommand(Help.class)
-                            .build().parse(args).run();
-        }
-        catch (IllegalArgumentException e){
-            ProcessBehaviourLogger.logError("Wrong input! Make sure the first file is a template with format .ttl, the second is the RDF-to-be .csv, the last is a .ttl\nERROR: "+(e.getMessage()));
-        }
-        catch (NullPointerException e){
-            ProcessBehaviourLogger.logError("Wrong input! Make sure to give 3 files in input\nERROR: " + (e.getMessage()));
-        }
-        catch (Exception e) {
-            ProcessBehaviourLogger.logError("ERROR: "+(e.getMessage())); }
+
+            try {  
+            
+                Cli.<Runnable> builder("csv2rdf").withDescription("Converts a CSV file to RDF based on a given template")
+                                .withDefaultCommand(CSV2RDF.class).withCommand(CSV2RDF.class).withCommand(Help.class)
+                                .build().parse(args).run();
+            }
+            catch (IllegalArgumentException e){
+                ProcessBehaviourLogger.logError("Invalid parameters. Make sure the first file is a template with format .ttl, the input file is a .csv, the output file is a '.ttl'.");
+            }
+            catch (Exception e) {
+                ProcessBehaviourLogger.logError(e.getMessage());
+            }
+
         }
 }

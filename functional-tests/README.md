@@ -1,6 +1,6 @@
 > The script requires Python 3 to be installed. The `init.sh` script contains the neccessary python dependencies. Dependencies may be installed manually.
 
-# Automatic manual testing tool
+# Automatic functional testing tool by team csv-szindikatus
 
 ### Execute all tests:
 `python3 autotester.py`
