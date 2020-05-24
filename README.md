@@ -1,7 +1,6 @@
 > This project was updated by team **csv-szindikatus** for the Integration and Verification Techniques course at the Budapest University of Technology and Economics. The documentation is available inside the **doc** folder in **Hungarian** language.<br>Original work: https://github.com/clarkparsia/csv2rdf
 
 CSV2RDF
-=======
 
 CSV2RDF is a simple tool for **generating RDF** output **from CSV/TSV** files.<br>
 Conversion is done using a **template file** describing one row of the desired output.<br>
