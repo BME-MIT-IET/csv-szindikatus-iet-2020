@@ -21,5 +21,8 @@ jobs:
       env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Automatically run all manual tests
-      run: python3 manual-tests/autotester.py
+    - name: Install autotester dependencies
+      run: functional-tests/init.sh
+    - name: Automatically run all functional tests
+      run: python3 functional-tests/autotester.py -r "functional-tests"
+
