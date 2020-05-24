@@ -4,7 +4,7 @@ CSV2RDF
 =======
 
 CSV2RDF is a simple tool for **generating RDF** output **from CSV/TSV** files.<br>
-Conversion is done by a **template file** describing one row of the desired output.<br>
+Conversion is done using a **template file** describing one row of the desired output.<br>
 See [examples/cars](examples/cars) for details. 
 
 ### Building
