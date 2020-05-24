@@ -23,10 +23,3 @@ A projekt **dependency injection** mintát alkalmazott a ValueFactory implement�
 > **Dependency injection** alkalmazása esetén elég egyetlen forrásállományban hivatkozni a program által igénybevett egy szolgáltatás konkrét implementációjára. Így amennyiben később egy igénybevett függőség egy más implementációját választjuk, elég a forráskódot egyetlen helyen módosítani.
 
 A refaktoring után statikus kód analízist futtattunk, erről bővebb információ a következő fejezetben található.
-
-<style>
-    p {
-    text-align: justify;
-    text-justify: inter-word;
-    }
-</style>

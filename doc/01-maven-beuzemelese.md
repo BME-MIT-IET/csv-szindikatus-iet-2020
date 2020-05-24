@@ -31,10 +31,3 @@ A tárhelyen létrehozunk egy **maven.yml** fájlt a folytonos integráció elő
 > `mvn -B package sonar:sonar`<br>
 
 A parancs hatására nem csak elkészítjük a lefordított forrásállományokat, a SonarCloud platform számára elemezzük a projektet. A SonarCloud platformról a dokumentáció egy későbbi fejezetében bővvebben fogunk még írni.
-
-<style>
-    p {
-    text-align: justify;
-    text-justify: inter-word;
-    }
-</style>
